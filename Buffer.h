@@ -31,7 +31,7 @@ struct io::Buffer : public io::WriteBuffer, io::ReadBuffer {
    */
 
   /**
-   * @brief
+   * @brief 沖洗緩衝區。
    *
    */
   virtual void flush(void) abstract;
