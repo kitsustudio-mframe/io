@@ -18,15 +18,15 @@
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   class InputStreamBuffer;
-}
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/Interface/Struct/Enum
  */
-class io::InputStreamBuffer : public io::InputStream,
-                              public io::WriteBuffer {
+class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
+                                      public mframe::io::WriteBuffer {
   /* ****************************************************************************
    * Variable <Public>
    */
@@ -72,7 +72,7 @@ class io::InputStreamBuffer : public io::InputStream,
    */
 
   /* ****************************************************************************
-   * Public Method <Override> - lang::WriteBuffer
+   * Public Method <Override> - mframe::lang::WriteBuffer
    */
  public:
   virtual bool isFull(void) const override;
@@ -81,9 +81,9 @@ class io::InputStreamBuffer : public io::InputStream,
 
   virtual int putByte(const char data) override;
 
-  virtual int put(io::ReadBuffer& readBuffer) override;
+  virtual int put(mframe::io::ReadBuffer& readBuffer) override;
 
-  virtual int put(io::ReadBuffer& readBuffer, int length) override;
+  virtual int put(mframe::io::ReadBuffer& readBuffer, int length) override;
 
   virtual int put(const void* buffer, int length) override;
 

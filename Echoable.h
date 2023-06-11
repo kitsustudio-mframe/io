@@ -18,14 +18,14 @@
 /* ****************************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   struct Echoable;
-}
+}  // namespace mframe::io
 
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */
-struct io::Echoable : public virtual lang::Interface {
+struct mframe::io::Echoable : public virtual mframe::lang::Interface {
   /* **************************************************************************************
    * Method
    */

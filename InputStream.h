@@ -14,16 +14,16 @@
 //-------------------------------------------------------------------------------
 #include "./../io/CompletionHandler.h"
 #include "./../io/WriteBuffer.h"
-#include "./../util/Future.h"
 #include "./../lang/Interface.h"
 #include "./../lang/Object.h"
+#include "./../util/Future.h"
 
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   class InputStream;
-}
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/Interface/Struct/Enum
@@ -35,8 +35,8 @@ namespace io {
  * 此類別無法被直接建構，須被繼承後並實現字節從輸入裝置至寫緩衝區。
  *
  */
-class io::InputStream : public lang::Object,
-                        public lang::Runnable {
+class mframe::io::InputStream : public mframe::lang::Object,
+                                public mframe::lang::Runnable {
   /* ****************************************************************************
    * Variable <Public>
    */
@@ -45,8 +45,8 @@ class io::InputStream : public lang::Object,
    * Variable <Protected>
    */
  protected:
-  io::WriteBuffer* mWriteBuffer;
-  io::CompletionHandler<int, void*>* mCompletionHandler;
+  mframe::io::WriteBuffer* mWriteBuffer;
+  mframe::io::CompletionHandler<int, void*>* mCompletionHandler;
   void* mAttachment;
   int mResult;
   bool mHandling;
@@ -89,7 +89,7 @@ class io::InputStream : public lang::Object,
    */
 
   /* ****************************************************************************
-   * Public Method <Override> - lang::Runnable
+   * Public Method <Override> - mframe::lang::Runnable
    */
  public:
   virtual void run(void) override;
@@ -124,7 +124,7 @@ class io::InputStream : public lang::Object,
    * @return true 操作成功或讀取超時。
    * @return false 操作失敗，輸入串流正在忙碌。
    */
-  virtual bool read(io::WriteBuffer& writeBuffer, int timeout);
+  virtual bool read(mframe::io::WriteBuffer& writeBuffer, int timeout);
 
   /**
    * @brief 非同步讀取。從輸入串流中讀取一些字節數，並將他們存到寫入緩衝區writeBuffer。
@@ -139,9 +139,9 @@ class io::InputStream : public lang::Object,
    * @return true 建立非同步讀取成功。
    * @return false 建立非同步讀取失敗，輸入串流正在忙碌。
    */
-  virtual bool read(io::WriteBuffer& writeBuffer,
+  virtual bool read(mframe::io::WriteBuffer& writeBuffer,
                     void* attachment,
-                    io::CompletionHandler<int, void*>* handler);
+                    mframe::io::CompletionHandler<int, void*>* handler);
 
   /**
    * @brief 非阻塞讀取。從輸入串流中讀取一些字節數，並將他們存到寫入緩衝區writeBuffer。
@@ -151,7 +151,7 @@ class io::InputStream : public lang::Object,
    * @return true 建立非阻塞讀取成功。
    * @return false 建立非阻塞讀取失敗，輸入串流正在忙碌。
    */
-  virtual bool read(io::WriteBuffer& writeBuffer, util::Future& future);
+  virtual bool read(mframe::io::WriteBuffer& writeBuffer, mframe::util::Future& future);
 
   /* ****************************************************************************
    * Protected Method <Static>

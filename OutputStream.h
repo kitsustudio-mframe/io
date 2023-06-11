@@ -14,15 +14,15 @@
 //-------------------------------------------------------------------------------
 #include "./../io/CompletionHandler.h"
 #include "./../io/ReadBuffer.h"
-#include "./../util/Future.h"
 #include "./../lang/Runnable.h"
+#include "./../util/Future.h"
 
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   class OutputStream;
-}
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/Interface/Struct/Enum
@@ -30,12 +30,12 @@ namespace io {
 
 /**
  * @brief 輸出串流 <Protected Class>
- * 
+ *
  * 此類別無法被直接建構，須被繼承後並實現字節從緩衝區輸出至裝置。
- * 
+ *
  */
-class io::OutputStream : public lang::Object,
-                         public lang::Runnable {
+class mframe::io::OutputStream : public mframe::lang::Object,
+                                 public mframe::lang::Runnable {
   /* ****************************************************************************
    * Variable <Public>
    */
@@ -44,8 +44,8 @@ class io::OutputStream : public lang::Object,
    * Variable <Protected>
    */
  protected:
-  io::ReadBuffer* mReadBuffer;
-  io::CompletionHandler<int, void*>* mCompletionHandler;
+  mframe::io::ReadBuffer* mReadBuffer;
+  mframe::io::CompletionHandler<int, void*>* mCompletionHandler;
   void* mAttachment;
   int mResult;
   bool mHandling;
@@ -88,7 +88,7 @@ class io::OutputStream : public lang::Object,
    */
 
   /* ****************************************************************************
-   * Public Method <Override> - lang::Runnable
+   * Public Method <Override> - mframe::lang::Runnable
    */
  public:
   virtual void run(void) override;
@@ -124,7 +124,7 @@ class io::OutputStream : public lang::Object,
    *  - true: 建立寫入成功
    *  - false: 建立寫入失敗，串流可能正在忙碌中
    */
-  bool write(io::ReadBuffer& readBuffer, int timeout);
+  bool write(mframe::io::ReadBuffer& readBuffer, int timeout);
 
   /**
    * @brief NIO 寫入模式
@@ -144,7 +144,7 @@ class io::OutputStream : public lang::Object,
    *  - true : 建立寫入成功
    *  - false : 建立寫入失敗，串流可能正在忙碌中
    */
-  bool write(io::ReadBuffer& readBuffer, util::Future& future);
+  bool write(mframe::io::ReadBuffer& readBuffer, mframe::util::Future& future);
 
   /* ****************************************************************************
    * Public Method <Virtual>
@@ -160,9 +160,9 @@ class io::OutputStream : public lang::Object,
    *  - true : 建立寫入成功
    *  - false : 建立寫入失敗，串流可能正在忙碌中
    */
-  virtual bool write(io::ReadBuffer& readBuffer,
+  virtual bool write(mframe::io::ReadBuffer& readBuffer,
                      void* attachment,
-                     io::CompletionHandler<int, void*>* handler);
+                     mframe::io::CompletionHandler<int, void*>* handler);
 
   /* ****************************************************************************
    * Protected Method <Static>

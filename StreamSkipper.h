@@ -17,15 +17,15 @@
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   class StreamSkipper;
-}
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/Interface/Struct/Enum
  */
-class io::StreamSkipper : public lang::Object,
-                          public io::WriteBuffer {
+class mframe::io::StreamSkipper : public mframe::lang::Object,
+                                  public mframe::io::WriteBuffer {
   /* ****************************************************************************
    * Variable <Public>
    */
@@ -130,7 +130,7 @@ class io::StreamSkipper : public lang::Object,
    */
 
   /* ****************************************************************************
-   * Public Method <Override> - lang::InputBuffer
+   * Public Method <Override> - mframe::lang::InputBuffer
    */
  public:
   inline virtual bool isFull(void) const override {
@@ -143,9 +143,9 @@ class io::StreamSkipper : public lang::Object,
 
   virtual int putByte(const char data) override;
 
-  virtual int put(io::ReadBuffer& readBuffer) override;
+  virtual int put(mframe::io::ReadBuffer& readBuffer) override;
 
-  virtual int put(io::ReadBuffer& readBuffer, int length) override;
+  virtual int put(mframe::io::ReadBuffer& readBuffer, int length) override;
 
   virtual int put(const void* buffer, int length) override;
 

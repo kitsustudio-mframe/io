@@ -15,18 +15,17 @@
 //-------------------------------------------------------------------------------
 #include "./../lang/Interface.h"
 
-
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   struct Closeable;
-}
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/Interface/Struct
  */
-struct io::Closeable : public virtual lang::Interface {
+struct mframe::io::Closeable : public virtual mframe::lang::Interface {
   /* ****************************************************************************
    * Method
    */

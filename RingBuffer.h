@@ -26,15 +26,15 @@
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   class RingBuffer;
-}
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/Interface/Struct
  */
-class io::RingBuffer : public lang::Memory,
-                       public io::Buffer {
+class mframe::io::RingBuffer : public mframe::lang::Memory,
+                               public mframe::io::Buffer {
   /* ****************************************************************************
    * Variable <Public>
    */
@@ -76,7 +76,7 @@ class io::RingBuffer : public lang::Memory,
    *
    * @param memory
    */
-  RingBuffer(const lang::Memory& memory);
+  RingBuffer(const mframe::lang::Memory& memory);
 
   /**
    * @brief Construct a new Ring Buffer object
@@ -100,7 +100,7 @@ class io::RingBuffer : public lang::Memory,
    */
 
   /* ****************************************************************************
-   * Public Method <Override> - lang::Buffer
+   * Public Method <Override> - mframe::lang::Buffer
    */
  public:
   /**
@@ -112,13 +112,13 @@ class io::RingBuffer : public lang::Memory,
   }
 
   /* ****************************************************************************
-   *  Public Method <Override> - lang::Iterable<char>
+   *  Public Method <Override> - mframe::lang::Iterable<char>
    */
  public:
   virtual bool peekIndex(int index, char& result) override;
 
   /* ****************************************************************************
-   * Public Method <Override> - io::ReadBuffer
+   * Public Method <Override> - mframe::io::ReadBuffer
    */
  public:
   virtual inline bool isEmpty(void) const override {
@@ -131,16 +131,16 @@ class io::RingBuffer : public lang::Memory,
 
   virtual int pollByte(char& result) override;
 
-  virtual int poll(io::WriteBuffer& writeBuffer) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer) override;
 
-  virtual int poll(io::WriteBuffer& writeBuffer, int length) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length) override;
 
   virtual int poll(void* buffer, int bufferSize) override;
 
   virtual int skip(int value) override;
 
   /* ****************************************************************************
-   * Public Method <Override> - lang::WriteBuffer
+   * Public Method <Override> - mframe::lang::WriteBuffer
    */
  public:
   virtual inline bool isFull(void) const override {
@@ -153,9 +153,9 @@ class io::RingBuffer : public lang::Memory,
 
   virtual int putByte(const char data) override;
 
-  virtual int put(io::ReadBuffer& readBuffer) override;
+  virtual int put(mframe::io::ReadBuffer& readBuffer) override;
 
-  virtual int put(io::ReadBuffer& readBuffer, int length) override;
+  virtual int put(mframe::io::ReadBuffer& readBuffer, int length) override;
 
   virtual int put(const void* buffer, int length) override;
 

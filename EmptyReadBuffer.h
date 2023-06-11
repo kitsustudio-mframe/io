@@ -18,15 +18,15 @@
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   class EmptyReadBuffer;
-}
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/Interface/Struct/Enum
  */
-class io::EmptyReadBuffer : public lang::Object,
-                            public io::ReadBuffer {
+class mframe::io::EmptyReadBuffer : public mframe::lang::Object,
+                                    public mframe::io::ReadBuffer {
   /* ****************************************************************************
    * Variable <Public>
    */
@@ -72,13 +72,13 @@ class io::EmptyReadBuffer : public lang::Object,
    */
 
   /* ****************************************************************************
-   *  Public Method <Override> - lang::Iterable<char>
+   *  Public Method <Override> - mframe::lang::Iterable<char>
    */
  public:
   virtual bool peekIndex(int index, char& result) override;
 
   /* ****************************************************************************
-   * Public Method <Override> - io::ReadBuffer
+   * Public Method <Override> - mframe::io::ReadBuffer
    */
  public:
   virtual bool isEmpty(void) const override;
@@ -87,9 +87,9 @@ class io::EmptyReadBuffer : public lang::Object,
 
   virtual int pollByte(char& result) override;
 
-  virtual int poll(io::WriteBuffer& writeBuffer) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer) override;
 
-  virtual int poll(io::WriteBuffer& writeBuffer, int length) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length) override;
 
   virtual int poll(void* buffer, int bufferSize) override;
 

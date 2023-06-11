@@ -17,15 +17,15 @@
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   struct ReadBuffer;
   struct WriteBuffer;
-}  // namespace io
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/struct/Struct/Enum
  */
-struct io::ReadBuffer : public lang::Iterable<char> {
+struct mframe::io::ReadBuffer : public mframe::lang::Iterable<char> {
   /* ****************************************************************************
    * Method
    */
@@ -59,7 +59,7 @@ struct io::ReadBuffer : public lang::Iterable<char> {
    * @param writeBuffer 輸出目標緩存空間
    * @return int 輸出至目標的位元組數量
    */
-  virtual int poll(io::WriteBuffer& writeBuffer) abstract;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer) abstract;
 
   /**
    * @brief 輸出至WriteBuffer
@@ -68,7 +68,7 @@ struct io::ReadBuffer : public lang::Iterable<char> {
    * @param length 指定最大輸出位元組數量
    * @return int 輸出至目標的位元組數量
    */
-  virtual int poll(io::WriteBuffer& writeBuffer, int length) abstract;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length) abstract;
 
   /**
    * @brief 輸出目標緩存空間

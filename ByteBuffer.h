@@ -20,15 +20,15 @@
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   class ByteBuffer;
-}
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/Interface/Struct
  */
-class io::ByteBuffer : public lang::Memory,
-                       public io::Buffer {
+class mframe::io::ByteBuffer : public mframe::lang::Memory,
+                               public mframe::io::Buffer {
   /* ****************************************************************************
    *  Variable <Public>
    */
@@ -62,7 +62,7 @@ class io::ByteBuffer : public lang::Memory,
    *
    * @param memory
    */
-  ByteBuffer(const lang::Memory& memory);
+  ByteBuffer(const mframe::lang::Memory& memory);
 
   /**
    * @brief Construct a new Byte Buffer object
@@ -131,7 +131,7 @@ class io::ByteBuffer : public lang::Memory,
    * @param string
    * @return ByteBuffer&
    */
-  inline ByteBuffer& operator<<(lang::Strings& string) {
+  inline ByteBuffer& operator<<(mframe::lang::Strings& string) {
     ByteBuffer::put(string);
     return *this;
   }
@@ -278,7 +278,7 @@ class io::ByteBuffer : public lang::Memory,
    */
 
   /* ****************************************************************************
-   *  Public Method <Override> - lang::Memory
+   *  Public Method <Override> - mframe::lang::Memory
    */
  public:
   /**
@@ -302,13 +302,13 @@ class io::ByteBuffer : public lang::Memory,
   virtual int indexOfData(const void* destination, int destinationLen, int start) const override;
 
   /* ****************************************************************************
-   *  Public Method <Override> - lang::Iterable<char>
+   *  Public Method <Override> - mframe::lang::Iterable<char>
    */
  public:
   virtual bool peekIndex(int index, char& result) override;
 
   /* ****************************************************************************
-   *  Public Method <Override> - lang::Buffer
+   *  Public Method <Override> - mframe::lang::Buffer
    */
  public:
   virtual inline void flush(void) override {
@@ -319,7 +319,7 @@ class io::ByteBuffer : public lang::Memory,
   }
 
   /* ****************************************************************************
-   *  Public Method <Override> - lang::ReadBuffer
+   *  Public Method <Override> - mframe::lang::ReadBuffer
    */
  public:
   virtual inline bool isEmpty(void) const override {
@@ -332,16 +332,16 @@ class io::ByteBuffer : public lang::Memory,
 
   virtual int pollByte(char& result) override;
 
-  virtual int poll(io::WriteBuffer& writeBuffer) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer) override;
 
-  virtual int poll(io::WriteBuffer& writeBuffer, int length) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length) override;
 
   virtual int poll(void* buffer, int bufferSize) override;
 
   virtual int skip(int value) override;
 
   /* ****************************************************************************
-   *  Public Method <Override> - lang::WriteBuffer
+   *  Public Method <Override> - mframe::lang::WriteBuffer
    */
  public:
   virtual inline bool isFull(void) const override {
@@ -354,9 +354,9 @@ class io::ByteBuffer : public lang::Memory,
 
   virtual int putByte(const char result) override;
 
-  virtual int put(io::ReadBuffer& readBuffer) override;
+  virtual int put(mframe::io::ReadBuffer& readBuffer) override;
 
-  virtual int put(io::ReadBuffer& readBuffer, int length) override;
+  virtual int put(mframe::io::ReadBuffer& readBuffer, int length) override;
 
   virtual int put(const void* buffer, int bufferSize) override;
 
@@ -518,7 +518,7 @@ class io::ByteBuffer : public lang::Memory,
    * @return true
    * @return false
    */
-  bool put(const lang::Strings& string);
+  bool put(const mframe::lang::Strings& string);
 
   /**
    * @brief

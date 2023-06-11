@@ -18,14 +18,15 @@
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   struct Buffer;
-}
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/Interface/Struct/Enum
  */
-struct io::Buffer : public io::WriteBuffer, io::ReadBuffer {
+struct mframe::io::Buffer : public mframe::io::WriteBuffer,
+                            public mframe::io::ReadBuffer {
   /* ****************************************************************************
    * Method
    */

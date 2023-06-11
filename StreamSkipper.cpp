@@ -21,10 +21,10 @@
 /* ******************************************************************************
  * Using
  */
-using io::StreamSkipper;
+using mframe::io::StreamSkipper;
 
 //-------------------------------------------------------------------------------
-using io::ReadBuffer;
+using mframe::io::ReadBuffer;
 
 /* ******************************************************************************
  * Variable <Static>
@@ -57,7 +57,7 @@ StreamSkipper::~StreamSkipper(void) {
  */
 
 /* ******************************************************************************
- * Public Method <Override> - lang::InputBuffer
+ * Public Method <Override> - mframe::lang::InputBuffer
  */
 
 //-------------------------------------------------------------------------------

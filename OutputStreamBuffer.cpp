@@ -11,7 +11,6 @@
 #include "./OutputStreamBuffer.h"
 
 //-------------------------------------------------------------------------------
-
 #include "mframe.h"
 
 /* ******************************************************************************
@@ -21,10 +20,10 @@
 /* ******************************************************************************
  * Using
  */
-using io::OutputStreamBuffer;
+using mframe::io::OutputStreamBuffer;
 
 //-------------------------------------------------------------------------------
-using io::WriteBuffer;
+using mframe::io::WriteBuffer;
 
 /* ******************************************************************************
  * Variable <Static>
@@ -55,7 +54,7 @@ OutputStreamBuffer::~OutputStreamBuffer(void) {
  */
 
 /* ****************************************************************************
- *  Public Method <Override> - lang::Iterable<char>
+ *  Public Method <Override> - mframe::lang::Iterable<char>
  */
 
 //-------------------------------------------------------------------------------
@@ -67,7 +66,7 @@ bool OutputStreamBuffer::peekIndex(int index, char& result) {
 }
 
 /* ******************************************************************************
- * Public Method <Override> - lang::ReadBuffer
+ * Public Method <Override> - mframe::lang::ReadBuffer
  */
 
 //-------------------------------------------------------------------------------

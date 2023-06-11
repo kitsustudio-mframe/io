@@ -18,16 +18,16 @@
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   template <typename V, typename A>
   struct CompletionHandler;
-}
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/struct/Struct
  */
 template <typename V, typename A>
-struct io::CompletionHandler : public virtual lang::Interface {
+struct mframe::io::CompletionHandler : public virtual mframe::lang::Interface {
   /* ****************************************************************************
    *  Method
    */

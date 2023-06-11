@@ -4,8 +4,8 @@
  *
  * SPDX-License-Identifier: MIT
  */
-#ifndef MCUF_0105D590_C0D6_4307_AB0E_0988007EEC05
-#define MCUF_0105D590_C0D6_4307_AB0E_0988007EEC05
+#ifndef MFRAME_0105D590_C0D6_4307_AB0E_0988007EEC05
+#define MFRAME_0105D590_C0D6_4307_AB0E_0988007EEC05
 
 /* ******************************************************************************
  * Include
@@ -20,14 +20,14 @@
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   class PrintBuffer;
-}
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/Interface/Struct/Enum
  */
-class io::PrintBuffer final : public io::RingBuffer {
+class mframe::io::PrintBuffer final : public mframe::io::RingBuffer {
   /* ****************************************************************************
    * Variable <Public>
    */
@@ -65,7 +65,7 @@ class io::PrintBuffer final : public io::RingBuffer {
    *
    * @param memory
    */
-  PrintBuffer(const lang::Memory& memory);
+  PrintBuffer(const mframe::lang::Memory& memory);
 
   /**
    * @brief Construct a new Ring Buffer object
@@ -140,7 +140,7 @@ class io::PrintBuffer final : public io::RingBuffer {
    * @param str
    * @return PrintBuffer&
    */
-  inline PrintBuffer& operator<<(lang::Strings& str) {
+  inline PrintBuffer& operator<<(mframe::lang::Strings& str) {
     return this->print(str);
   }
 
@@ -150,7 +150,7 @@ class io::PrintBuffer final : public io::RingBuffer {
    * @param r
    * @return PrintBuffer&
    */
-  inline PrintBuffer& operator<<(io::ReadBuffer& r) {
+  inline PrintBuffer& operator<<(mframe::io::ReadBuffer& r) {
     return this->print(r);
   }
 
@@ -228,7 +228,7 @@ class io::PrintBuffer final : public io::RingBuffer {
    * @param string
    * @return PrintBuffer&
    */
-  inline PrintBuffer& print(const lang::Strings& string) {
+  inline PrintBuffer& print(const mframe::lang::Strings& string) {
     return this->print(string, false);
   }
 
@@ -248,7 +248,7 @@ class io::PrintBuffer final : public io::RingBuffer {
    * @param readBuffer
    * @return PrintBuffer&
    */
-  inline PrintBuffer& print(io::ReadBuffer& readBuffer) {
+  inline PrintBuffer& print(mframe::io::ReadBuffer& readBuffer) {
     return this->print(readBuffer, false);
   }
 
@@ -318,7 +318,7 @@ class io::PrintBuffer final : public io::RingBuffer {
    * @param string
    * @return PrintBuffer&
    */
-  inline PrintBuffer& println(const lang::Strings& string) {
+  inline PrintBuffer& println(const mframe::lang::Strings& string) {
     return this->print(string, true);
   }
 
@@ -338,7 +338,7 @@ class io::PrintBuffer final : public io::RingBuffer {
    * @param readBuffer
    * @return PrintBuffer&
    */
-  inline PrintBuffer& println(io::ReadBuffer& readBuffer) {
+  inline PrintBuffer& println(mframe::io::ReadBuffer& readBuffer) {
     return this->print(readBuffer, true);
   }
 
@@ -399,7 +399,7 @@ class io::PrintBuffer final : public io::RingBuffer {
    * @param newLine
    * @return PrintBuffer&
    */
-  PrintBuffer& print(const lang::Strings& string, bool newLine);
+  PrintBuffer& print(const mframe::lang::Strings& string, bool newLine);
 
   /**
    * @brief
@@ -417,7 +417,7 @@ class io::PrintBuffer final : public io::RingBuffer {
    * @param newLine
    * @return PrintBuffer&
    */
-  PrintBuffer& print(io::ReadBuffer& readBuffer, bool newLine);
+  PrintBuffer& print(mframe::io::ReadBuffer& readBuffer, bool newLine);
 
   /**
    * @brief
@@ -464,4 +464,4 @@ class io::PrintBuffer final : public io::RingBuffer {
  * End of file
  */
 
-#endif /* MCUF_0105D590_C0D6_4307_AB0E_0988007EEC05 */
+#endif /* MFRAME_0105D590_C0D6_4307_AB0E_0988007EEC05 */

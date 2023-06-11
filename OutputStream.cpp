@@ -11,7 +11,6 @@
 #include "./OutputStream.h"
 
 //-------------------------------------------------------------------------------
-
 #include "mframe.h"
 
 /* ******************************************************************************
@@ -21,12 +20,12 @@
 /* ******************************************************************************
  * Using
  */
-using io::OutputStream;
+using mframe::io::OutputStream;
 
 //-------------------------------------------------------------------------------
-using io::CompletionHandler;
-using io::ReadBuffer;
-using util::Future;
+using mframe::io::CompletionHandler;
+using mframe::io::ReadBuffer;
+using mframe::util::Future;
 
 /* ******************************************************************************
  * Variable <Static>
@@ -61,7 +60,7 @@ OutputStream::~OutputStream(void) {
  */
 
 /* ******************************************************************************
- * Public Method <Override> - lang::Runnable
+ * Public Method <Override> - mframe::lang::Runnable
  */
 
 //-------------------------------------------------------------------------------

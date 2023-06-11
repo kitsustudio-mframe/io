@@ -21,12 +21,12 @@
 /* ******************************************************************************
  * Using
  */
-using io::InputStream;
+using mframe::io::InputStream;
 
 //-------------------------------------------------------------------------------
-using io::CompletionHandler;
-using io::WriteBuffer;
-using util::Future;
+using mframe::io::CompletionHandler;
+using mframe::io::WriteBuffer;
+using mframe::util::Future;
 
 /* ******************************************************************************
  * Variable <Static>
@@ -61,7 +61,7 @@ InputStream::~InputStream(void) {
  */
 
 /* ******************************************************************************
- * Public Method <Override> - lang::Runnable
+ * Public Method <Override> - mframe::lang::Runnable
  */
 
 //-------------------------------------------------------------------------------

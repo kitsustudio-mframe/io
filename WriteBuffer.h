@@ -18,10 +18,10 @@
 /* ******************************************************************************
  * Namespace
  */
-namespace io {
+namespace mframe::io {
   struct WriteBuffer;
   struct ReadBuffer;
-}  // namespace io
+}  // namespace mframe::io
 
 /* ******************************************************************************
  * Class/struct/Struct/Enum
@@ -31,7 +31,7 @@ namespace io {
  * @brief 寫緩衝區 <Interface>
  *
  */
-struct io::WriteBuffer : public virtual lang::Interface {
+struct mframe::io::WriteBuffer : public virtual mframe::lang::Interface {
   /* ****************************************************************************
    * Method
    */
@@ -65,7 +65,7 @@ struct io::WriteBuffer : public virtual lang::Interface {
    * @param readBuffer 資料來源
    * @return int 實際輸入至緩衝區的字節數。
    */
-  virtual int put(io::ReadBuffer& readBuffer) abstract;
+  virtual int put(mframe::io::ReadBuffer& readBuffer) abstract;
 
   /**
    * @brief 將readBuffer內資料輸入至緩衝區，限定最大輸入數量為length。
@@ -74,7 +74,7 @@ struct io::WriteBuffer : public virtual lang::Interface {
    * @param length 最大輸入字節數
    * @return int 實際輸入至緩衝區的字節數，最大不超過length。
    */
-  virtual int put(io::ReadBuffer& readBuffer, int length) abstract;
+  virtual int put(mframe::io::ReadBuffer& readBuffer, int length) abstract;
 
   /**
    * @brief 將任一唯獨指針內資料輸入至緩衝區。

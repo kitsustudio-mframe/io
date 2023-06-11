@@ -11,21 +11,18 @@
 #include "./ByteBuffer.h"
 
 //-------------------------------------------------------------------------------
-
 #include "mframe.h"
 
 /* ******************************************************************************
  * Using
  */
 
-using io::ByteBuffer;
+using mframe::io::ByteBuffer;
 //-------------------------------------------------------------------------------
-using lang::Memory;
-using lang::Strings;
-
-//-------------------------------------------------------------------------------
-using io::ReadBuffer;
-using io::WriteBuffer;
+using mframe::io::ReadBuffer;
+using mframe::io::WriteBuffer;
+using mframe::lang::Memory;
+using mframe::lang::Strings;
 
 /* ******************************************************************************
  * Construct Method
@@ -57,7 +54,7 @@ ByteBuffer::~ByteBuffer(void) {
  */
 
 /* ******************************************************************************
- * Public Method <Override> - lang::Memory
+ * Public Method <Override> - mframe::lang::Memory
  */
 
 //-------------------------------------------------------------------------------
@@ -71,7 +68,7 @@ int ByteBuffer::indexOfData(const void* destination, int destinationLen, int sta
 }
 
 /* ******************************************************************************
- * Public Method <Override> - lang::Iterable<char>
+ * Public Method <Override> - mframe::lang::Iterable<char>
  */
 //-------------------------------------------------------------------------------
 bool ByteBuffer::peekIndex(int index, char& result) {
@@ -84,7 +81,7 @@ bool ByteBuffer::peekIndex(int index, char& result) {
 }
 
 /* ******************************************************************************
- * Public Method <Override> - lang::ReadBufferBuffer
+ * Public Method <Override> - mframe::lang::ReadBufferBuffer
  */
 
 //-------------------------------------------------------------------------------
@@ -140,7 +137,7 @@ int ByteBuffer::skip(int value) {
 }
 
 /* ******************************************************************************
- * Public Method <Override> - lang::WriteBuffer
+ * Public Method <Override> - mframe::lang::WriteBuffer
  */
 
 //-------------------------------------------------------------------------------

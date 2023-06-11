@@ -13,7 +13,6 @@
 //-------------------------------------------------------------------------------
 #include "mframe.h"
 
-
 /* ******************************************************************************
  * Macro
  */
@@ -25,12 +24,12 @@
 /* ******************************************************************************
  * Using
  */
-using io::RingBuffer;
+using mframe::io::RingBuffer;
 
 //-------------------------------------------------------------------------------
-using io::ReadBuffer;
-using io::WriteBuffer;
-using lang::Memory;
+using mframe::io::ReadBuffer;
+using mframe::io::WriteBuffer;
+using mframe::lang::Memory;
 
 /* ******************************************************************************
  * Variable <Static>
@@ -72,7 +71,7 @@ RingBuffer::~RingBuffer(void) {
  */
 
 /* ******************************************************************************
- *  Public Method <Override> - lang::Iterable<char>
+ *  Public Method <Override> - mframe::lang::Iterable<char>
  */
 bool RingBuffer::peekIndex(int index, char& result) {
   if (index >= this->avariable())
@@ -85,7 +84,7 @@ bool RingBuffer::peekIndex(int index, char& result) {
 }
 
 /* ******************************************************************************
- * Public Method <Override> - lang::ReadBuffer
+ * Public Method <Override> - mframe::lang::ReadBuffer
  */
 
 //-------------------------------------------------------------------------------
@@ -198,7 +197,7 @@ int RingBuffer::put(const void* data, int num) {
 }
 
 /* ******************************************************************************
- * Public Method <Override> - lang::WriteBuffer
+ * Public Method <Override> - mframe::lang::WriteBuffer
  */
 
 //-------------------------------------------------------------------------------

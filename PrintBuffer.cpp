@@ -11,7 +11,6 @@
 #include "./PrintBuffer.h"
 
 //-------------------------------------------------------------------------------
-
 #include "mframe.h"
 
 /* ******************************************************************************
@@ -21,13 +20,13 @@
 /* ******************************************************************************
  * Using
  */
-using io::PrintBuffer;
+using mframe::io::PrintBuffer;
 
 //-------------------------------------------------------------------------------
-using io::RingBuffer;
-using lang::Memory;
-using lang::StringFormat;
-using lang::Strings;
+using mframe::io::RingBuffer;
+using mframe::lang::Memory;
+using mframe::lang::StringFormat;
+using mframe::lang::Strings;
 
 /* ******************************************************************************
  * Variable <Static>
@@ -95,7 +94,7 @@ PrintBuffer& PrintBuffer::print(char c, bool newLine) {
 
 //-------------------------------------------------------------------------------
 PrintBuffer& PrintBuffer::print(double d, bool newLine) {
-  lang::StringFormat::writeBuffer(*this, "%f", d);
+  mframe::lang::StringFormat::writeBuffer(*this, "%f", d);
 
   if (newLine)
     this->putByte('\n');
@@ -105,7 +104,7 @@ PrintBuffer& PrintBuffer::print(double d, bool newLine) {
 
 //-------------------------------------------------------------------------------
 PrintBuffer& PrintBuffer::print(float f, bool newLine) {
-  lang::StringFormat::writeBuffer(*this, "%f", static_cast<double>(f));
+  mframe::lang::StringFormat::writeBuffer(*this, "%f", static_cast<double>(f));
 
   if (newLine)
     this->putByte('\n');
@@ -116,10 +115,10 @@ PrintBuffer& PrintBuffer::print(float f, bool newLine) {
 //-------------------------------------------------------------------------------
 PrintBuffer& PrintBuffer::print(int i, bool newLine, bool unsign) {
   if (unsign)
-    lang::StringFormat::writeBuffer(*this, "%d", static_cast<unsigned int>(i));
+    mframe::lang::StringFormat::writeBuffer(*this, "%d", static_cast<unsigned int>(i));
 
   else
-    lang::StringFormat::writeBuffer(*this, "%d", i);
+    mframe::lang::StringFormat::writeBuffer(*this, "%d", i);
 
   if (newLine)
     this->putByte('\n');
