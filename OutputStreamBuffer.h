@@ -90,13 +90,13 @@ class mframe::io::OutputStreamBuffer : public mframe::io::OutputStream,
 
   virtual int avariable(void) const override;
 
-  virtual int pollByte(char& result) override;
+  virtual int pollByte(char& result, bool peek) override;
 
-  virtual int poll(mframe::io::WriteBuffer& writeBuffer) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, bool peek) override;
 
-  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length, bool peek) override;
 
-  virtual int poll(void* buffer, int bufferSize) override;
+  virtual int poll(void* buffer, int bufferSize, bool peek) override;
 
   virtual int skip(int value) override;
 

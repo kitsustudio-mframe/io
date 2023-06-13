@@ -139,72 +139,6 @@ class mframe::io::ByteBuffer : public mframe::lang::Memory,
   /**
    * @brief
    *
-   * @param c
-   * @return ByteBuffer&
-   */
-  inline ByteBuffer& operator>>(char& c) {
-    ByteBuffer::pollByte(c);
-    return *this;
-  }
-
-  /**
-   * @brief
-   *
-   * @param c
-   * @return ByteBuffer&
-   */
-  inline ByteBuffer& operator>>(uint8_t& c) {
-    ByteBuffer::pollByte(c);
-    return *this;
-  }
-
-  /**
-   * @brief
-   *
-   * @param s
-   * @return ByteBuffer&
-   */
-  inline ByteBuffer& operator>>(short& s) {
-    ByteBuffer::pollShort(s);
-    return *this;
-  }
-
-  /**
-   * @brief
-   *
-   * @param s
-   * @return ByteBuffer&
-   */
-  inline ByteBuffer& operator>>(uint16_t& s) {
-    ByteBuffer::pollShort(s);
-    return *this;
-  }
-
-  /**
-   * @brief
-   *
-   * @param v
-   * @return ByteBuffer&
-   */
-  inline ByteBuffer& operator>>(int& v) {
-    ByteBuffer::pollInt(v);
-    return *this;
-  }
-
-  /**
-   * @brief
-   *
-   * @param v
-   * @return ByteBuffer&
-   */
-  inline ByteBuffer& operator>>(unsigned int& v) {
-    ByteBuffer::pollInt(v);
-    return *this;
-  }
-
-  /**
-   * @brief
-   *
    * @param v
    * @return int
    */
@@ -330,13 +264,13 @@ class mframe::io::ByteBuffer : public mframe::lang::Memory,
     return (ByteBuffer::mLimit - ByteBuffer::mPosition);
   }
 
-  virtual int pollByte(char& result) override;
+  virtual int pollByte(char& result, bool peek) override;
 
-  virtual int poll(mframe::io::WriteBuffer& writeBuffer) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, bool peek) override;
 
-  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length, bool peek) override;
 
-  virtual int poll(void* buffer, int bufferSize) override;
+  virtual int poll(void* buffer, int bufferSize, bool peek) override;
 
   virtual int skip(int value) override;
 
@@ -427,7 +361,7 @@ class mframe::io::ByteBuffer : public mframe::lang::Memory,
    * @return false
    */
   inline bool pollByte(uint8_t& result) {
-    return ByteBuffer::pollByte(reinterpret_cast<char&>(result));
+    return this->pollByte(reinterpret_cast<char&>(result), false);
   }
 
   /**

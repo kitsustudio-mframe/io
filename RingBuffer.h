@@ -121,13 +121,13 @@ class mframe::io::RingBuffer : public mframe::lang::Memory,
     return static_cast<int>(this->mHead - this->mTail);
   }
 
-  virtual int pollByte(char& result) override;
+  virtual int pollByte(char& result, bool peek) override;
 
-  virtual int poll(mframe::io::WriteBuffer& writeBuffer) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, bool peek) override;
 
-  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length) override;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length, bool peek) override;
 
-  virtual int poll(void* buffer, int bufferSize) override;
+  virtual int poll(void* buffer, int bufferSize, bool peek) override;
 
   virtual int skip(int value) override;
 
@@ -209,12 +209,12 @@ class mframe::io::RingBuffer : public mframe::lang::Memory,
   /* ****************************************************************************
    * Private Method
    */
-
-  /**
-   *
-   */
  private:
   void init(void);
+
+  int pollMult(mframe::io::WriteBuffer* writeBuffer, void* buffer, int length, bool isPeek);
+
+  int putMult(mframe::io::ReadBuffer* readBuffer, const void* buffer, int length);
 };
 
 /* *******************************************************************************

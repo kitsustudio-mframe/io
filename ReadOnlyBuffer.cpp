@@ -77,23 +77,25 @@ bool ReadOnlyBuffer::peekIndex(int index, char& result) {
  */
 
 //-------------------------------------------------------------------------------
-int ReadOnlyBuffer::pollByte(char& result) {
+int ReadOnlyBuffer::pollByte(char& result, bool peek) {
   if (this->isEmpty())
     return -1;
 
   result = *this->pointer(this->mPosition, Class<char>::cast());
-  ++this->mPosition;
+  
+  if(!peek)
+    ++this->mPosition;
 
   return this->avariable();
 }
 
 //-------------------------------------------------------------------------------
-int ReadOnlyBuffer::poll(WriteBuffer& writeBuffer) {
-  return ReadOnlyBuffer::poll(writeBuffer, this->avariable());
+int ReadOnlyBuffer::poll(WriteBuffer& writeBuffer, bool peek) {
+  return ReadOnlyBuffer::poll(writeBuffer, this->avariable(), peek);
 }
 
 //-------------------------------------------------------------------------------
-int ReadOnlyBuffer::poll(WriteBuffer& writeBuffer, int length) {
+int ReadOnlyBuffer::poll(WriteBuffer& writeBuffer, int length, bool peek) {
   if (length <= 0)
     return 0;
 
@@ -105,12 +107,15 @@ int ReadOnlyBuffer::poll(WriteBuffer& writeBuffer, int length) {
     length = max;
 
   int result = writeBuffer.put(this->pointer(mPosition), this->avariable());
-  this->mPosition += result;
+  
+  if(!peek)
+    this->mPosition += result;
+  
   return result;
 }
 
 //-------------------------------------------------------------------------------
-int ReadOnlyBuffer::poll(void* buffer, int bufferSize) {
+int ReadOnlyBuffer::poll(void* buffer, int bufferSize, bool peek) {
   if (this->isEmpty())
     return 0;
 
@@ -121,13 +126,20 @@ int ReadOnlyBuffer::poll(void* buffer, int bufferSize) {
   if (buffer != nullptr)
     this->copyTo(buffer, 0, this->mPosition, bufferSize);
 
-  this->mPosition += result;
+  if(!peek)
+    this->mPosition += result;
+  
   return result;
 }
 
 //-------------------------------------------------------------------------------
 int ReadOnlyBuffer::skip(int value) {
-  return this->poll(nullptr, value);
+  int max = this->avariable();
+  if (value > max)
+    value = max;
+  
+  this->mPosition += value;
+  return value;
 }
 
 /* ******************************************************************************

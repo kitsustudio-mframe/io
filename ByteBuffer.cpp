@@ -85,7 +85,7 @@ bool ByteBuffer::peekIndex(int index, char& result) {
  */
 
 //-------------------------------------------------------------------------------
-int ByteBuffer::pollByte(char& result) {
+int ByteBuffer::pollByte(char& result, bool peek) {
   if (this->mPosition >= this->mLimit)
     return -1;
 
@@ -95,40 +95,45 @@ int ByteBuffer::pollByte(char& result) {
 }
 
 //-------------------------------------------------------------------------------
-int ByteBuffer::poll(WriteBuffer& writeBuffer) {
-  return this->poll(writeBuffer, writeBuffer.remaining());
+int ByteBuffer::poll(WriteBuffer& writeBuffer, bool peek) {
+  return this->poll(writeBuffer, writeBuffer.remaining(), peek);
 }
 
 //-------------------------------------------------------------------------------
-int ByteBuffer::poll(WriteBuffer& writeBuffer, int length) {
+int ByteBuffer::poll(WriteBuffer& writeBuffer, int length, bool peek) {
   if (length <= 0)
     return 0;
 
-  int max = ByteBuffer::avariable();
+  int max = this->avariable();
   if (length > max)
     length = max;
 
   int result = writeBuffer.put(this->pointer(this->mPosition), length);
-  this->position(this->position() + result);
+
+  if(!peek)
+    this->position(this->position() + result);
 
   return result;
 }
 
 //-------------------------------------------------------------------------------
-int ByteBuffer::poll(void* buffer, int bufferSize) {
-  int max = ByteBuffer::avariable();
+int ByteBuffer::poll(void* buffer, int bufferSize, bool peek) {
+  int max = this->avariable();
   int pos = this->position();
   if (bufferSize > max)
     bufferSize = max;
 
-  ByteBuffer::copyTo(buffer, pos, bufferSize);
-  this->position(pos + bufferSize);
+  this->copyTo(buffer, pos, bufferSize);
+
+  if(!peek)
+    this->position(pos + bufferSize);
+
   return bufferSize;
 }
 
 //-------------------------------------------------------------------------------
 int ByteBuffer::skip(int value) {
-  int max = ByteBuffer::avariable();
+  int max = this->avariable();
   if (value > max)
     value = max;
 
@@ -163,7 +168,7 @@ int ByteBuffer::put(ReadBuffer& readBuffer, int length) {
   if (length > max)
     length = max;
 
-  int result = readBuffer.poll(this->pointer(this->mPosition), length);
+  int result = readBuffer.poll(this->pointer(this->mPosition), length, false);
   this->position(this->position() + result);
   return result;
 }

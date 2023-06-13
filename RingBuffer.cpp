@@ -103,91 +103,12 @@ int RingBuffer::put(ReadBuffer& outputBuffer) {
 
 //-------------------------------------------------------------------------------
 int RingBuffer::put(ReadBuffer& outputBuffer, int length) {
-  if (length <= 0)
-    return 0;
-
-  int num = outputBuffer.avariable();
-  if (num > length)
-    num = length;
-
-  uint8_t* ptr = static_cast<uint8_t*>(RingBuffer::pointer());
-  int cnt1, cnt2;
-
-  /* We cannot insert when queue is full */
-  if (RingBuffer::isFull())
-    return 0;
-
-  /* Calculate the segment lengths */
-  cnt1 = cnt2 = RingBuffer::remaining();
-  if (INDH() + cnt1 >= static_cast<int>(RingBuffer::mCount))
-    cnt1 = static_cast<int>(RingBuffer::mCount) - INDH();
-  cnt2 -= cnt1;
-
-  cnt1 = MIN(cnt1, num);
-  num -= cnt1;
-
-  cnt2 = MIN(cnt2, num);
-  num -= cnt2;
-
-  /* Write segment 1 */
-  ptr += INDH();
-  outputBuffer.poll(ptr, cnt1);
-  RingBuffer::mHead += static_cast<uint32_t>(cnt1);
-
-  /* Write segment 2 */
-  ptr = static_cast<uint8_t*>(RingBuffer::pointer()) + INDH();
-  outputBuffer.poll(ptr, cnt2);
-  RingBuffer::mHead += static_cast<uint32_t>(cnt2);
-
-  return (cnt1 + cnt2);
+  return this->putMult(&outputBuffer, nullptr, length);
 }
 
 //-------------------------------------------------------------------------------
 int RingBuffer::put(const void* data, int num) {
-  if (num <= 0)
-    return 0;
-
-  if (data == nullptr) {
-    uint32_t max = static_cast<uint32_t>(RingBuffer::remaining());
-
-    if (static_cast<uint32_t>(num) > max)
-      num = static_cast<int>(max);
-
-    RingBuffer::mHead += static_cast<uint32_t>(num);
-    return static_cast<int>(num);
-  }
-
-  uint8_t* ptr = static_cast<uint8_t*>(RingBuffer::pointer());
-  int cnt1, cnt2;
-
-  /* We cannot insert when queue is full */
-  if (RingBuffer::isFull())
-    return 0;
-
-  /* Calculate the segment lengths */
-  cnt1 = cnt2 = RingBuffer::remaining();
-  if (INDH() + cnt1 >= static_cast<int>(RingBuffer::mCount))
-    cnt1 = static_cast<int>(RingBuffer::mCount) - INDH();
-  cnt2 -= cnt1;
-
-  cnt1 = MIN(cnt1, num);
-  num -= cnt1;
-
-  cnt2 = MIN(cnt2, num);
-  num -= cnt2;
-
-  /* Write segment 1 */
-  ptr += INDH();
-  Pointers::copy(ptr, data, cnt1);
-  RingBuffer::mHead += static_cast<uint32_t>(cnt1);
-
-  /* Write segment 2 */
-  ptr = static_cast<uint8_t*>(RingBuffer::pointer()) + INDH();
-  data = static_cast<const uint8_t*>(data) + cnt1;
-  Pointers::copy(ptr, data, cnt2);
-  RingBuffer::mHead += static_cast<uint32_t>(cnt2);
-
-  return (cnt1 + cnt2);
+  return this->putMult(nullptr, data, num);
 }
 
 /* ******************************************************************************
@@ -195,114 +116,34 @@ int RingBuffer::put(const void* data, int num) {
  */
 
 //-------------------------------------------------------------------------------
-int RingBuffer::pollByte(char& data) {
+int RingBuffer::pollByte(char& data, bool peek) {
   uint8_t* ptr = static_cast<uint8_t*>(RingBuffer::pointer());
 
   /* We cannot pop when queue is empty */
-  if (RingBuffer::isEmpty())
+  if (this->isEmpty())
     return -1;
 
   ptr += INDT();
   data = static_cast<char>(*ptr);
-  ++RingBuffer::mTail;
+  if(!peek)
+    ++this->mTail;
 
   return this->avariable();
 }
 
 //-------------------------------------------------------------------------------
-int RingBuffer::poll(WriteBuffer& inputBuffer) {
-  return RingBuffer::poll(inputBuffer, inputBuffer.remaining());
+int RingBuffer::poll(WriteBuffer& writeBuffer, bool peek) {
+  return RingBuffer::poll(writeBuffer, writeBuffer.remaining(), peek);
 }
 
 //-------------------------------------------------------------------------------
-int RingBuffer::poll(WriteBuffer& inputBuffer, int length) {
-  if (length <= 0)
-    return 0;
-
-  int num = inputBuffer.remaining();
-  if (num > length)
-    num = length;
-
-  uint8_t* ptr = static_cast<uint8_t*>(RingBuffer::pointer());
-  int cnt1, cnt2;
-
-  /* We cannot insert when queue is full */
-  if (RingBuffer::isEmpty())
-    return 0;
-
-  /* Calculate the segment lengths */
-  cnt1 = cnt2 = RingBuffer::avariable();
-  if (INDT() + cnt1 >= static_cast<int>(RingBuffer::mCount))
-    cnt1 = static_cast<int>(RingBuffer::mCount) - INDT();
-
-  cnt2 -= cnt1;
-
-  cnt1 = MIN(cnt1, num);
-  num -= cnt1;
-
-  cnt2 = MIN(cnt2, num);
-  num -= cnt2;
-
-  /* Write segment 1 */
-  ptr += INDT();
-  inputBuffer.put(ptr, cnt1);
-  RingBuffer::mTail += static_cast<uint32_t>(cnt1);
-
-  /* Write segment 2 */
-  ptr = static_cast<uint8_t*>(RingBuffer::pointer()) + INDT();
-  inputBuffer.put(ptr, cnt2);
-  RingBuffer::mTail += static_cast<uint32_t>(cnt2);
-
-  return cnt1 + cnt2;
+int RingBuffer::poll(WriteBuffer& writeBuffer, int length, bool peek) {
+  return this->pollMult(&writeBuffer, nullptr, length, peek);
 }
 
 //-------------------------------------------------------------------------------
-int RingBuffer::poll(void* data, int num) {
-  if (num <= 0)
-    return 0;
-
-  if (data == nullptr) {
-    uint32_t max = static_cast<uint32_t>(RingBuffer::avariable());
-
-    if (static_cast<uint32_t>(num) > max)
-      num = static_cast<int>(max);
-
-    RingBuffer::mTail += static_cast<uint32_t>(num);
-    return num;
-  }
-
-  uint8_t* ptr = static_cast<uint8_t*>(RingBuffer::pointer());
-  int cnt1, cnt2;
-
-  /* We cannot insert when queue is empty */
-  if (RingBuffer::isEmpty())
-    return 0;
-
-  /* Calculate the segment lengths */
-  cnt1 = cnt2 = RingBuffer::avariable();
-  if (INDT() + cnt1 >= static_cast<int>(RingBuffer::mCount))
-    cnt1 = static_cast<int>(RingBuffer::mCount) - INDT();
-
-  cnt2 -= cnt1;
-
-  cnt1 = MIN(cnt1, num);
-  num -= cnt1;
-
-  cnt2 = MIN(cnt2, num);
-  num -= cnt2;
-
-  /* Write segment 1 */
-  ptr += INDT();
-  Pointers::copy(data, ptr, cnt1);
-  RingBuffer::mTail += static_cast<uint32_t>(cnt1);
-
-  /* Write segment 2 */
-  ptr = static_cast<uint8_t*>(RingBuffer::pointer()) + INDT();
-  data = static_cast<uint8_t*>(data) + cnt1;
-  Pointers::copy(data, ptr, cnt2);
-  RingBuffer::mTail += static_cast<uint32_t>(cnt2);
-
-  return cnt1 + cnt2;
+int RingBuffer::poll(void* data, int num, bool peek) {
+  return this->pollMult(nullptr, data, num, peek);
 }
 
 //-------------------------------------------------------------------------------
@@ -335,15 +176,11 @@ int RingBuffer::skip(int value) {
 /* ******************************************************************************
  * Private Method
  */
-
-/**
- * @brief
- *
- */
+//-------------------------------------------------------------------------------
 void RingBuffer::init(void) {
-  uint32_t bufferSize = static_cast<uint32_t>(RingBuffer::length());
-  RingBuffer::mHead abstract;
-  RingBuffer::mTail abstract;
+  uint32_t bufferSize = static_cast<uint32_t>(this->length());
+  this->mHead = 0;
+  this->mTail = 0;
 
   for (int i = 0; i < 32; i++) {
     bufferSize &= ~(1 << i);
@@ -353,9 +190,125 @@ void RingBuffer::init(void) {
     }
   }
 
-  RingBuffer::mCount = bufferSize;
+  this->mCount = bufferSize;
 }
 
+//-------------------------------------------------------------------------------
+int RingBuffer::pollMult(mframe::io::WriteBuffer* writeBuffer, void* buffer, int length, bool isPeek) {
+  if ((writeBuffer == nullptr) && (buffer == nullptr))
+    return 0;
+
+  if (length <= 0)
+    return 0;
+
+  int num = length;
+
+  if (writeBuffer){
+    num = writeBuffer->remaining();
+    if (num > length)
+      num = length;
+  }
+
+  uint8_t* ptr = static_cast<uint8_t*>(this->pointer());
+  int cnt1, cnt2;
+
+  /* We cannot insert when queue is full */
+  if (this->isEmpty())
+    return 0;
+
+  /* Calculate the segment lengths */
+  cnt1 = cnt2 = this->avariable();
+  if (INDT() + cnt1 >= static_cast<int>(this->mCount))
+    cnt1 = static_cast<int>(this->mCount) - INDT();
+
+  cnt2 -= cnt1;
+
+  cnt1 = MIN(cnt1, num);
+  num -= cnt1;
+
+  cnt2 = MIN(cnt2, num);
+  num -= cnt2;
+
+  /* Write segment 1 */
+  ptr += INDT();
+
+  if (writeBuffer)
+    writeBuffer->put(ptr, cnt1);
+
+  else
+    Pointers::copy(buffer, ptr, cnt1);
+
+  if (cnt2) {
+    ptr = static_cast<uint8_t*>(this->pointer());
+    if (writeBuffer)
+      writeBuffer->put(ptr, cnt2);
+
+    else
+      Pointers::copy(buffer, ptr, cnt2);
+  }
+
+  if (!isPeek)
+    this->mTail += static_cast<uint32_t>(cnt1 + cnt2);
+
+  return cnt1 + cnt2;
+}
+
+//-------------------------------------------------------------------------------
+int RingBuffer::putMult(mframe::io::ReadBuffer* readBuffer, const void* buffer, int length) {
+  if ((readBuffer == nullptr) && (buffer == nullptr))
+    return 0;
+
+  if (length <= 0)
+    return 0;
+
+  int num = length;
+  if (readBuffer){
+    num = readBuffer->avariable();
+    if (num > length)
+      num = length;
+  }
+
+
+  uint8_t* ptr = this->pointer(Class<uint8_t>::cast());
+  int cnt1, cnt2;
+
+  /* We cannot insert when queue is full */
+  if (this->isFull())
+    return 0;
+
+  /* Calculate the segment lengths */
+  cnt1 = cnt2 = this->remaining();
+  if (INDH() + cnt1 >= static_cast<int>(this->mCount))
+    cnt1 = static_cast<int>(this->mCount) - INDH();
+
+  cnt2 -= cnt1;
+
+  cnt1 = MIN(cnt1, num);
+  num -= cnt1;
+
+  cnt2 = MIN(cnt2, num);
+  num -= cnt2;
+
+  /* Write segment 1 */
+  ptr += INDH();
+  if (readBuffer)
+    readBuffer->poll(ptr, cnt1, false);
+  else
+    Pointers::copy(ptr, buffer, cnt1);
+
+  /* Write segment 2 */
+  if (cnt2) {
+    ptr = this->pointer(Class<uint8_t>::cast());
+    if (readBuffer)
+      readBuffer->poll(ptr, cnt2, false);
+
+    else
+      Pointers::copy(ptr, buffer, cnt2);
+  }
+
+  this->mHead += static_cast<uint32_t>(cnt1 + cnt2);
+  return (cnt1 + cnt2);
+}
 /* ******************************************************************************
  * End of file
  */

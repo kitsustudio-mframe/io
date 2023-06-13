@@ -86,11 +86,11 @@ int OutputStreamBuffer::avariable(void) const {
 }
 
 //-------------------------------------------------------------------------------
-int OutputStreamBuffer::pollByte(char& result) {
+int OutputStreamBuffer::pollByte(char& result, bool peek) {
   if (this->mReadBuffer == nullptr)
     return 0;
 
-  int status = this->mReadBuffer->pollByte(result);
+  int status = this->mReadBuffer->pollByte(result, peek);
 
   if (status >= 0)
     ++this->mResult;
@@ -102,16 +102,16 @@ int OutputStreamBuffer::pollByte(char& result) {
 }
 
 //-------------------------------------------------------------------------------
-int OutputStreamBuffer::poll(WriteBuffer& writeBuffer) {
-  return this->poll(writeBuffer, writeBuffer.remaining());
+int OutputStreamBuffer::poll(WriteBuffer& writeBuffer, bool peek) {
+  return this->poll(writeBuffer, writeBuffer.remaining(), peek);
 }
 
 //-------------------------------------------------------------------------------
-int OutputStreamBuffer::poll(WriteBuffer& writeBuffer, int length) {
+int OutputStreamBuffer::poll(WriteBuffer& writeBuffer, int length, bool peek) {
   if (this->mReadBuffer == nullptr)
     return 0;
 
-  int result = this->mReadBuffer->poll(writeBuffer, length);
+  int result = this->mReadBuffer->poll(writeBuffer, length, peek);
 
   if (this->mReadBuffer->isEmpty())
     this->execute();
@@ -120,11 +120,11 @@ int OutputStreamBuffer::poll(WriteBuffer& writeBuffer, int length) {
 }
 
 //-------------------------------------------------------------------------------
-int OutputStreamBuffer::poll(void* buffer, int bufferSize) {
+int OutputStreamBuffer::poll(void* buffer, int bufferSize, bool peek) {
   if (this->mReadBuffer == nullptr)
     return 0;
 
-  int result = this->mReadBuffer->poll(buffer, bufferSize);
+  int result = this->mReadBuffer->poll(buffer, bufferSize, peek);
 
   if (this->mReadBuffer->isEmpty())
     this->execute();

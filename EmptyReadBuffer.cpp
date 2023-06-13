@@ -75,22 +75,22 @@ int EmptyReadBuffer::avariable(void) const {
 }
 
 //-------------------------------------------------------------------------------
-int EmptyReadBuffer::pollByte(char& result) {
+int EmptyReadBuffer::pollByte(char& result, bool peek) {
   return 0;
 }
 
 //-------------------------------------------------------------------------------
-int EmptyReadBuffer::poll(WriteBuffer& writeBuffer) {
+int EmptyReadBuffer::poll(WriteBuffer& writeBuffer, bool peek) {
   return 0;
 }
 
 //-------------------------------------------------------------------------------
-int EmptyReadBuffer::poll(WriteBuffer& writeBuffer, int length) {
+int EmptyReadBuffer::poll(WriteBuffer& writeBuffer, int length, bool peek) {
   return 0;
 }
 
 //-------------------------------------------------------------------------------
-int EmptyReadBuffer::poll(void* buffer, int bufferSize) {
+int EmptyReadBuffer::poll(void* buffer, int bufferSize, bool peek) {
   return 0;
 }
 

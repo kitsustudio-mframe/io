@@ -46,38 +46,42 @@ struct mframe::io::ReadBuffer : public mframe::lang::Iterable<char> {
   virtual int avariable(void) const abstract;
 
   /**
-   * @brief 輸出一個位元組
+   * @brief 檢索一個字節，並由此緩衝區刪除
    *
    * @param result
+   * @param peek true 啟用窺視，僅讀取不刪除
    * @return int 緩衝區剩餘可讀取數量
    */
-  virtual int pollByte(char& result) abstract;
+  virtual int pollByte(char& result, bool peek) abstract;
 
   /**
-   * @brief 輸出至WriteBuffer
+   * @brief 檢索至writeBuffer，並由此緩衝區刪除
    *
-   * @param writeBuffer 輸出目標緩存空間
-   * @return int 輸出至目標的位元組數量
+   * @param writeBuffer 輸出緩衝區
+   * @param peek true 啟用窺視，僅讀取不刪除
+   * @return int 檢索的位元組數量
    */
-  virtual int poll(mframe::io::WriteBuffer& writeBuffer) abstract;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, bool peek) abstract;
 
   /**
-   * @brief 輸出至WriteBuffer
+   * @brief 檢索至writeBuffer指定數量字節，並由此緩衝區刪除
    *
-   * @param writeBuffer 輸出目標緩存空間
-   * @param length 指定最大輸出位元組數量
-   * @return int 輸出至目標的位元組數量
+   * @param writeBuffer 輸出緩衝區
+   * @param length 指定最大輸出字節數量
+   * @param peek true 啟用窺視，僅讀取不刪除
+   * @return int 檢索的位元組數量
    */
-  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length) abstract;
+  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length, bool peek) abstract;
 
   /**
-   * @brief 輸出目標緩存空間
+   * @brief 檢索至buffer指定數量字節，並由此緩衝區刪除
    *
-   * @param buffer 緩衝區地址
+   * @param buffer 輸出緩衝區
    * @param bufferSize 緩衝區大小
-   * @return int 複製的位元組數量
+   * @param peek true 啟用窺視，僅讀取不刪除
+   * @return int 檢索的位元組數量
    */
-  virtual int poll(void* buffer, int bufferSize) abstract;
+  virtual int poll(void* buffer, int bufferSize, bool peek) abstract;
 
   /**
    * @brief 跳躍數個緩衝區內位元組
