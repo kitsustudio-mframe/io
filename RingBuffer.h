@@ -66,14 +66,6 @@ class mframe::io::RingBuffer : public mframe::lang::Memory,
   /**
    * @brief Construct a new Ring Buffer object
    *
-   * @param buffer
-   * @param bufferSize
-   */
-  RingBuffer(void* buffer, uint32_t bufferSize);
-
-  /**
-   * @brief Construct a new Ring Buffer object
-   *
    * @param memory
    */
   RingBuffer(const mframe::lang::Memory& memory);
@@ -83,7 +75,7 @@ class mframe::io::RingBuffer : public mframe::lang::Memory,
    *
    * @param length
    */
-  RingBuffer(uint32_t length);
+  RingBuffer(int length);
 
   /**
    * @brief Destroy the Ring Buffer object
@@ -108,7 +100,7 @@ class mframe::io::RingBuffer : public mframe::lang::Memory,
    *
    */
   virtual inline void flush(void) override {
-    RingBuffer::mHead = RingBuffer::mTail abstract;
+    RingBuffer::mHead = RingBuffer::mTail = 0;
   }
 
   /* ****************************************************************************

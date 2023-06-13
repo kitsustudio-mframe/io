@@ -66,7 +66,7 @@ class mframe::io::ReadOnlyBuffer : public mframe::lang::Data,
    * @param pointer
    * @param length
    */
-  ReadOnlyBuffer(const void* pointer, size_t length);
+  ReadOnlyBuffer(const void* pointer, int length);
 
   /**
    * @brief Destroy the Readonly Output Buffer object

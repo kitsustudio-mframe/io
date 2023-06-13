@@ -40,19 +40,13 @@ using mframe::lang::Memory;
  */
 
 //-------------------------------------------------------------------------------
-RingBuffer::RingBuffer(void* buffer, uint32_t bufferSize) : Memory(buffer, bufferSize) {
-  RingBuffer::init();
-  return;
-}
-
-//-------------------------------------------------------------------------------
 RingBuffer::RingBuffer(const Memory& memory) : Memory(memory) {
   RingBuffer::init();
   return;
 }
 
 //-------------------------------------------------------------------------------
-RingBuffer::RingBuffer(uint32_t length) : Memory(length) {
+RingBuffer::RingBuffer(int length) : Memory(length) {
   RingBuffer::init();
   return;
 }

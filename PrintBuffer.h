@@ -52,13 +52,6 @@ class mframe::io::PrintBuffer final : public mframe::io::RingBuffer {
    * Construct Method
    */
  public:
-  /**
-   * @brief Construct a new Ring Buffer object
-   *
-   * @param buffer
-   * @param bufferSize
-   */
-  PrintBuffer(void* buffer, uint32_t bufferSize);
 
   /**
    * @brief Construct a new Ring Buffer object
@@ -72,7 +65,7 @@ class mframe::io::PrintBuffer final : public mframe::io::RingBuffer {
    *
    * @param length
    */
-  PrintBuffer(uint32_t length);
+  PrintBuffer(int length);
 
   /**
    * @brief Destroy the Print Stream object

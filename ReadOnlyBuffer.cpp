@@ -34,13 +34,13 @@ using mframe::io::WriteBuffer;
  */
 
 //-------------------------------------------------------------------------------
-ReadOnlyBuffer::ReadOnlyBuffer(const char* str) : Data(str, static_cast<unsigned int>(Character::length(str))) {
+ReadOnlyBuffer::ReadOnlyBuffer(const char* str) : Data(str, Character::length(str)) {
   this->mPosition = 0;
   return;
 }
 
 //-------------------------------------------------------------------------------
-ReadOnlyBuffer::ReadOnlyBuffer(const void* pointer, size_t length) : Data(pointer, length) {
+ReadOnlyBuffer::ReadOnlyBuffer(const void* pointer, int length) : Data(pointer, length) {
   this->mPosition = 0;
   return;
 }

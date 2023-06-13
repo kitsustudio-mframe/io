@@ -35,7 +35,7 @@ ByteBuffer::ByteBuffer(const Memory& memory) : Memory(memory) {
 }
 
 //-------------------------------------------------------------------------------
-ByteBuffer::ByteBuffer(size_t length) : Memory(length) {
+ByteBuffer::ByteBuffer(int length) : Memory(length) {
   ByteBuffer::flush();
   return;
 }

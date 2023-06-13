@@ -37,17 +37,12 @@ using mframe::lang::Strings;
  */
 
 //-------------------------------------------------------------------------------
-PrintBuffer::PrintBuffer(void* buffer, uint32_t bufferSize) : RingBuffer(buffer, bufferSize) {
-  return;
-}
-
-//-------------------------------------------------------------------------------
 PrintBuffer::PrintBuffer(const Memory& memory) : RingBuffer(memory) {
   return;
 }
 
 //-------------------------------------------------------------------------------
-PrintBuffer::PrintBuffer(uint32_t length) : RingBuffer(length) {
+PrintBuffer::PrintBuffer(int length) : RingBuffer(length) {
   return;
 }
 

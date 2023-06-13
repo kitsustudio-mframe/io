@@ -69,7 +69,7 @@ class mframe::io::ByteBuffer : public mframe::lang::Memory,
    *
    * @param length
    */
-  ByteBuffer(size_t length);
+  ByteBuffer(int length);
 
   /**
    * @brief Destroy the Byte Buffer object
