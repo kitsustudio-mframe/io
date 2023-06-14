@@ -40,7 +40,7 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
    * Variable <Private>
    */
  private:
-  mframe::io::Buffer& mBuffer;
+  mframe::io::Buffer* mBuffer;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -59,7 +59,7 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
    *
    * @param buffer
    */
-  InputStreamBuffer(mframe::io::Buffer& buffer);
+  InputStreamBuffer(void);
 
   /**
    * @brief Destroy the Read Buffer Input Stream object
@@ -126,7 +126,14 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
   /* **************************************************************************************
    * Public Method
    */
-
+ public:
+  /**
+   * @brief Set the Default Buffer object
+   *
+   * @param buffer
+   */
+  virtual void setDefaultBuffer(mframe::io::Buffer* buffer);
+  
   /* **************************************************************************************
    * Protected Method <Static>
    */

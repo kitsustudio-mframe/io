@@ -9,9 +9,9 @@
  * Include
  */
 #include "./OutputStreamBuffer.h"
-//-----------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------
+#include "mframe.h"
 
 /* ****************************************************************************************
  * Macro
@@ -23,6 +23,7 @@
 using mframe::io::OutputStreamBuffer;
 
 //-----------------------------------------------------------------------------------------
+using mframe::io::Buffer;
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -31,6 +32,16 @@ using mframe::io::OutputStreamBuffer;
 /* ****************************************************************************************
  * Construct Method
  */
+
+OutputStreamBuffer::OutputStreamBuffer(void) {
+  this->mBuffer = nullptr;
+  return;
+}
+
+OutputStreamBuffer::~OutputStreamBuffer(void) {
+  this->mBuffer = nullptr;
+  return;
+}
 
 /* ****************************************************************************************
  * Operator Method
@@ -46,32 +57,50 @@ using mframe::io::OutputStreamBuffer;
 
 //-----------------------------------------------------------------------------------------
 bool OutputStreamBuffer::isFull(void) const {
-  return this->mBuffer.isFull();
+  if (this->mBuffer)
+    return this->mBuffer->isFull();
+
+  return false;
 }
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::remaining(void) const {
-  return this->mBuffer.remaining();
+  if (this->mBuffer)
+    return this->mBuffer->remaining();
+
+  return 0;
 }
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::putByte(const char data) {
-  return this->mBuffer.putByte(data);
+  if (this->mBuffer)
+    return this->mBuffer->putByte(data);
+
+  return 0;
 }
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::put(mframe::io::ReadBuffer& readBuffer) {
-  return this->mBuffer.put(readBuffer);
+  if (this->mBuffer)
+    return this->mBuffer->put(readBuffer);
+
+  return 0;
 }
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::put(mframe::io::ReadBuffer& readBuffer, int length) {
-  return this->mBuffer.put(readBuffer, length);
+  if (this->mBuffer)
+    return this->mBuffer->put(readBuffer, length);
+
+  return 0;
 }
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::put(const void* buffer, int length) {
-  return this->mBuffer.put(buffer, length);
+  if (this->mBuffer)
+    return this->mBuffer->put(buffer, length);
+
+  return 0;
 }
 
 /* ****************************************************************************************
@@ -82,7 +111,11 @@ int OutputStreamBuffer::put(const void* buffer, int length) {
 bool OutputStreamBuffer::peekIndex(int index, char& result) {
   if (this->mReadBuffer)
     return this->mReadBuffer->peekIndex(index, result);
-  return this->mBuffer.peekIndex(index, result);
+
+  if (this->mBuffer)
+    return this->mBuffer->peekIndex(index, result);
+
+  return false;
 }
 
 /* ****************************************************************************************
@@ -94,7 +127,10 @@ bool OutputStreamBuffer::isEmpty(void) const {
   if (this->mReadBuffer)
     return this->mReadBuffer->isEmpty();
 
-  return this->mBuffer.isEmpty();
+  if (this->mBuffer)
+    return this->mBuffer->isEmpty();
+
+  return false;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -102,7 +138,10 @@ int OutputStreamBuffer::avariable(void) const {
   if (this->mReadBuffer)
     return this->mReadBuffer->avariable();
 
-  return this->mBuffer.avariable();
+  if (this->mBuffer)
+    return this->mBuffer->avariable();
+
+  return false;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -114,8 +153,10 @@ int OutputStreamBuffer::pollByte(char& result, bool peek) {
 
     return result;
   }
+  if (this->mBuffer)
+    return this->mBuffer->pollByte(result, peek);
 
-  return this->mBuffer.pollByte(result, peek);
+  return -1;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -136,7 +177,10 @@ int OutputStreamBuffer::poll(mframe::io::WriteBuffer& writeBuffer, int length, b
     return result;
   }
 
-  return this->mBuffer.poll(writeBuffer, length, peek);
+  if (this->mBuffer)
+    return this->mBuffer->poll(writeBuffer, length, peek);
+
+  return 0;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -151,8 +195,10 @@ int OutputStreamBuffer::poll(void* buffer, int bufferSize, bool peek) {
       this->execute();
     return result;
   }
+  if (this->mBuffer)
+    return this->mBuffer->poll(buffer, bufferSize, peek);
 
-  return this->mBuffer.poll(buffer, bufferSize, peek);
+  return 0;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -165,13 +211,20 @@ int OutputStreamBuffer::skip(int value) {
 
     return result;
   }
+  if (this->mBuffer)
+    return this->mBuffer->skip(value);
 
-  return this->mBuffer.skip(value);
+  return 0;
 }
 
 /* ****************************************************************************************
  * Public Method
  */
+//-----------------------------------------------------------------------------------------
+void OutputStreamBuffer::setDefaultBuffer(Buffer* buffer) {
+  this->mBuffer = buffer;
+  return;
+}
 
 /* ****************************************************************************************
  * Protected Method <Static>

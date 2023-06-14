@@ -33,7 +33,8 @@ using mframe::io::WriteBuffer;
  */
 
 //-----------------------------------------------------------------------------------------
-InputStreamBuffer::InputStreamBuffer(Buffer& buffer) : mBuffer(buffer) {
+InputStreamBuffer::InputStreamBuffer(void) {
+  this->mBuffer = nullptr;
   return;
 }
 
@@ -61,7 +62,9 @@ bool InputStreamBuffer::read(WriteBuffer& writeBuffer, void* attachment,
 
   this->mAttachment = attachment;
   this->mCompletionHandler = handler;
-  this->mResult = writeBuffer.put(this->mBuffer);
+  this->mResult = 0;
+  if (this->mBuffer)
+    this->mResult = writeBuffer.put(*this->mBuffer);
 
   if (this->mWriteBuffer->isFull())
     this->execute();
@@ -82,7 +85,10 @@ bool InputStreamBuffer::isFull(void) const {
   if (this->mWriteBuffer)
     return this->mWriteBuffer->isFull();
 
-  return this->mBuffer.isFull();
+  if (this->mBuffer)
+    return this->mBuffer->isFull();
+
+  return true;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -90,7 +96,10 @@ int InputStreamBuffer::remaining(void) const {
   if (this->mWriteBuffer)
     return this->mWriteBuffer->remaining();
 
-  return this->mBuffer.remaining();
+  if (this->mBuffer)
+    return this->mBuffer->remaining();
+
+  return 0;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -106,7 +115,10 @@ int InputStreamBuffer::putByte(const char data) {
     return result;
   }
 
-  return this->mBuffer.putByte(data);
+  if (this->mBuffer)
+    return this->mBuffer->putByte(data);
+
+  return 0;
 }
 
 //-----------------------------------------------------------------------------------------
@@ -125,7 +137,9 @@ int InputStreamBuffer::put(ReadBuffer& readBuffer, int length) {
 
   if (length > result) {
     this->execute();
-    result += this->mBuffer.put(readBuffer, (length - result));
+
+    if (this->mBuffer)
+      result += this->mBuffer->put(readBuffer, (length - result));
   }
 
   return result;
@@ -142,7 +156,8 @@ int InputStreamBuffer::put(const void* buffer, int length) {
 
   if (length > result) {
     this->execute();
-    result += this->mBuffer.put(buffer, length);
+    if (this->mBuffer)
+      result += this->mBuffer->put(buffer, length);
   }
 
   return result;
@@ -154,7 +169,10 @@ int InputStreamBuffer::put(const void* buffer, int length) {
 
 //-----------------------------------------------------------------------------------------
 bool InputStreamBuffer::peekIndex(int index, char& result) {
-  return this->mBuffer.peekIndex(index, result);
+  if (this->mBuffer)
+    return this->mBuffer->peekIndex(index, result);
+
+  return false;
 }
 
 /* ****************************************************************************************
@@ -163,42 +181,69 @@ bool InputStreamBuffer::peekIndex(int index, char& result) {
 
 //-----------------------------------------------------------------------------------------
 bool InputStreamBuffer::isEmpty(void) const {
-  return this->mBuffer.isEmpty();
+  if (this->mBuffer)
+    return this->mBuffer->isEmpty();
+
+  return false;
 }
 
 //-----------------------------------------------------------------------------------------
 int InputStreamBuffer::avariable(void) const {
-  return this->mBuffer.avariable();
+  if (this->mBuffer)
+    return this->mBuffer->avariable();
+
+  return false;
 }
 
 //-----------------------------------------------------------------------------------------
 int InputStreamBuffer::pollByte(char& result, bool peek) {
-  return this->mBuffer.pollByte(result, peek);
+  if (this->mBuffer)
+    return this->mBuffer->pollByte(result, peek);
+
+  return false;
 }
 
 //-----------------------------------------------------------------------------------------
 int InputStreamBuffer::poll(WriteBuffer& writeBuffer, bool peek) {
-  return this->mBuffer.poll(writeBuffer, peek);
+  if (this->mBuffer)
+    return this->mBuffer->poll(writeBuffer, peek);
+
+  return 0;
 }
 
 //-----------------------------------------------------------------------------------------
 int InputStreamBuffer::poll(WriteBuffer& writeBuffer, int length, bool peek) {
-  return this->mBuffer.poll(writeBuffer, length, peek);
+  if (this->mBuffer)
+    return this->mBuffer->poll(writeBuffer, length, peek);
+
+  return 0;
 }
 
 //-----------------------------------------------------------------------------------------
 int InputStreamBuffer::poll(void* buffer, int bufferSize, bool peek) {
-  return this->mBuffer.poll(buffer, bufferSize, peek);
+  if (this->mBuffer)
+    return this->mBuffer->poll(buffer, bufferSize, peek);
+
+  return 0;
 }
 
 //-----------------------------------------------------------------------------------------
 int InputStreamBuffer::skip(int value) {
-  return this->mBuffer.skip(value);
+  if (this->mBuffer)
+    return this->mBuffer->skip(value);
+
+  return 0;
 }
 
 /* ****************************************************************************************
  * Public Method
  */
+
+//-----------------------------------------------------------------------------------------
+void InputStreamBuffer::setDefaultBuffer(Buffer* buffer) {
+  this->mBuffer = buffer;
+  return;
+}
 
 /* ****************************************************************************************
  * Protected Method <Static>

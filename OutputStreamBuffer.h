@@ -39,7 +39,7 @@ class mframe::io::OutputStreamBuffer : public mframe::io::OutputStream,
    * Variable <Private>
    */
  private:
-  mframe::io::Buffer& mBuffer;
+  mframe::io::Buffer* mBuffer;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -53,8 +53,16 @@ class mframe::io::OutputStreamBuffer : public mframe::io::OutputStream,
    * Construct Method
    */
  public:
-  OutputStreamBuffer(mframe::io::Buffer& buffer);
+  /**
+   * @brief Construct a new Output Stream Buffer object
+   *
+   */
+  OutputStreamBuffer(void);
 
+  /**
+   * @brief Destroy the Output Stream Buffer object
+   *
+   */
   virtual ~OutputStreamBuffer(void) override;
 
   /* **************************************************************************************
@@ -108,7 +116,14 @@ class mframe::io::OutputStreamBuffer : public mframe::io::OutputStream,
   /* **************************************************************************************
    * Public Method
    */
-
+ public:
+  /**
+   * @brief Set the Default Buffer object
+   *
+   * @param buffer
+   */
+  virtual void setDefaultBuffer(mframe::io::Buffer* buffer);
+  
   /* **************************************************************************************
    * Protected Method <Static>
    */
