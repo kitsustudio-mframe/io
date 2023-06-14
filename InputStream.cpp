@@ -95,7 +95,7 @@ bool InputStream::abortRead(void) {
 
 //-------------------------------------------------------------------------------
 bool InputStream::readBusy(void) {
-  return (this->mWriteBuffer != nullptr);
+  return ((this->mWriteBuffer != nullptr) || this->mHandling);
 }
 
 //-------------------------------------------------------------------------------
@@ -119,13 +119,15 @@ bool InputStream::read(WriteBuffer& writeBuffer,
   if (this->readBusy())
     return false;
 
-  this->mWriteBuffer = &writeBuffer;
   this->mAttachment = attachment;
   this->mCompletionHandler = handler;
   this->mResult = 0;
 
   if (this->mWriteBuffer->isFull())
     this->execute();
+
+  else
+    this->mWriteBuffer = &writeBuffer;
 
   this->onReadEvent();
   return true;
@@ -162,13 +164,11 @@ bool InputStream::read(WriteBuffer& writeBuffer, Future& future) {
 
 //-------------------------------------------------------------------------------
 void InputStream::execute(void) {
-  if (!this->readBusy())
-    return;
-
   if (this->mHandling)
     return;
 
   this->mHandling = true;
+  this->mWriteBuffer = nullptr;
   System::execute(*this);
   return;
 }

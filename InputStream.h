@@ -33,6 +33,7 @@ namespace mframe::io {
  * @brief 輸入串流 <Protected Class>
  *
  * 此類別無法被直接建構，須被繼承後並實現字節從輸入裝置至寫緩衝區。
+ * 此類別無法再多線程下作業。
  *
  */
 class mframe::io::InputStream : public mframe::lang::Object,

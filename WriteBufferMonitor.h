@@ -4,30 +4,29 @@
  *
  * SPDX-License-Identifier: MIT
  */
-#ifndef MFRAME_73D4A5DA_8905_495C_8967_9EF1AAA2FB60
-#define MFRAME_73D4A5DA_8905_495C_8967_9EF1AAA2FB60
+#ifndef MFRAME_F581AE1C_B9B4_4A3A_9E1E_6349940CFBD0
+#define MFRAME_F581AE1C_B9B4_4A3A_9E1E_6349940CFBD0
 
 /* ****************************************************************************************
  * Include
  */
 
 //-----------------------------------------------------------------------------------------
-#include "./../io/Buffer.h"
-#include "./../io/InputStream.h"
+#include "./../io/WriteBuffer.h"
+#include "./../lang/Object.h"
 
 /* ****************************************************************************************
  * Namespace
  */
-namespace mframe::io {
-  class InputStreamBuffer;
-
-}  // namespace mframe::io
+namespace mframe {
+  class WriteBufferMonitor;
+}  // namespace mframe
 
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */
-class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
-                                      public mframe::io::Buffer {
+class mframe::WriteBufferMonitor : public mframe::lang::Object,
+                                   public mframe::io::WriteBuffer {
   /* **************************************************************************************
    * Variable <Public>
    */
@@ -40,7 +39,8 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
    * Variable <Private>
    */
  private:
-  mframe::io::Buffer& mBuffer;
+  mframe::io::WriteBuffer& mWriteBuffer;
+  mframe::io::WriteBuffer* mMonitor;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -55,17 +55,17 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
    */
  public:
   /**
-   * @brief Construct a new Read Buffer Input Stream object
+   * @brief Construct a new Write Buffer Monitor object
    *
-   * @param buffer
+   * @param writeBuffer
    */
-  InputStreamBuffer(mframe::io::Buffer& buffer);
+  WriteBufferMonitor(mframe::io::WriteBuffer& writeBuffer);
 
   /**
-   * @brief Destroy the Read Buffer Input Stream object
+   * @brief Destroy the Write Buffer Monitor object
    *
    */
-  virtual ~InputStreamBuffer(void) override;
+  virtual ~WriteBufferMonitor(void) override;
 
   /* **************************************************************************************
    * Operator Method
@@ -76,15 +76,7 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
    */
 
   /* **************************************************************************************
-   *  Public Method <Override> - mframe::io::InputStream
-   */
- public:
-  virtual bool read(mframe::io::WriteBuffer& writeBuffer,
-                    void* attachment,
-                    mframe::io::CompletionHandler<int, void*>* handler) override;
-
-  /* **************************************************************************************
-   * Public Method <Override> - mframe::lang::WriteBuffer
+   * Public Method <Override> - mframe::io::WriteBuffer
    */
  public:
   virtual bool isFull(void) const override;
@@ -100,32 +92,20 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
   virtual int put(const void* buffer, int length) override;
 
   /* **************************************************************************************
-   *  Public Method <Override> - mframe::lang::Iterable<char>
-   */
- public:
-  virtual bool peekIndex(int index, char& result) override;
-
-  /* **************************************************************************************
-   * Public Method <Override> - mframe::lang::ReadBuffer
-   */
- public:
-  virtual bool isEmpty(void) const override;
-
-  virtual int avariable(void) const override;
-
-  virtual int pollByte(char& result, bool peek) override;
-
-  virtual int poll(mframe::io::WriteBuffer& writeBuffer, bool peek) override;
-
-  virtual int poll(mframe::io::WriteBuffer& writeBuffer, int length, bool peek) override;
-
-  virtual int poll(void* buffer, int bufferSize, bool peek) override;
-
-  virtual int skip(int value) override;
-
-  /* **************************************************************************************
    * Public Method
    */
+ public:
+  /**
+   * @brief 設定監視器
+   * 
+   * @param monitor 
+   * - null 取消監聽
+   * - other 建立監聽事件
+   * 
+   * @return true 
+   * @return false 
+   */
+  virtual bool setMonitor(mframe::io::WriteBuffer* monitor);
 
   /* **************************************************************************************
    * Protected Method <Static>
@@ -156,4 +136,4 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
  * End of file
  */
 
-#endif /* MFRAME_73D4A5DA_8905_495C_8967_9EF1AAA2FB60 */
+#endif /* MFRAME_F581AE1C_B9B4_4A3A_9E1E_6349940CFBD0 */

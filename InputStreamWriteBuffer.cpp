@@ -8,7 +8,7 @@
 /* ******************************************************************************
  * Include
  */
-#include "./OutputStream.h"
+#include "./InputStreamWriteBuffer.h"
 
 //-------------------------------------------------------------------------------
 #include "mframe.h"
@@ -20,12 +20,10 @@
 /* ******************************************************************************
  * Using
  */
-using mframe::io::OutputStream;
+using mframe::io::InputStreamWriteBuffer;
 
 //-------------------------------------------------------------------------------
-using mframe::io::CompletionHandler;
 using mframe::io::ReadBuffer;
-using mframe::util::Future;
 
 /* ******************************************************************************
  * Variable <Static>
@@ -36,18 +34,12 @@ using mframe::util::Future;
  */
 
 //-------------------------------------------------------------------------------
-OutputStream::OutputStream(void) {
-  this->mAttachment = nullptr;
-  this->mCompletionHandler = nullptr;
-  this->mReadBuffer = nullptr;
-  this->mResult = 0;
-  this->mHandling = false;
+InputStreamWriteBuffer::InputStreamWriteBuffer(void) {
   return;
 }
 
 //-------------------------------------------------------------------------------
-OutputStream::~OutputStream(void) {
-  this->abortWrite();
+InputStreamWriteBuffer::~InputStreamWriteBuffer(void) {
   return;
 }
 
@@ -60,90 +52,82 @@ OutputStream::~OutputStream(void) {
  */
 
 /* ******************************************************************************
- * Public Method <Override> - mframe::lang::Runnable
+ * Public Method <Override> - mframe::lang::WriteBuffer
  */
 
 //-------------------------------------------------------------------------------
-void OutputStream::run(void) {
-  CompletionHandler<int, void*>* handler = this->mCompletionHandler;
-  void* attachment = this->mAttachment;
-  int result = this->mResult;
+bool InputStreamWriteBuffer::isFull(void) const {
+  if (this->mWriteBuffer == nullptr)
+    return true;
 
-  this->mResult = 0;
-  this->mReadBuffer = nullptr;
-  this->mHandling = false;
-
-  if (handler)
-    handler->completed(result, attachment);
-
-  return;
+  return this->mWriteBuffer->isFull();
 }
+
+//-------------------------------------------------------------------------------
+int InputStreamWriteBuffer::remaining(void) const {
+  if (this->mWriteBuffer == nullptr)
+    return 0;
+
+  return this->mWriteBuffer->remaining();
+}
+
+//-------------------------------------------------------------------------------
+int InputStreamWriteBuffer::putByte(const char data) {
+  if (this->mWriteBuffer == nullptr)
+    return -1;
+
+  int status = this->mWriteBuffer->putByte(data);
+
+  if (status >= 0)
+    ++this->mResult;
+
+  if (status <= 0)
+    this->execute();
+
+  return status;
+}
+
+//-------------------------------------------------------------------------------
+int InputStreamWriteBuffer::put(ReadBuffer& readBuffer) {
+  return this->put(readBuffer, readBuffer.avariable());
+}
+
+//-------------------------------------------------------------------------------
+int InputStreamWriteBuffer::put(ReadBuffer& readBuffer, int length) {
+  if (this->mWriteBuffer == nullptr)
+    return 0;
+
+  int result = this->mWriteBuffer->put(readBuffer, length);
+  this->mResult += result;
+
+  if (this->mWriteBuffer->isFull())
+    this->execute();
+
+  return result;
+}
+
+//-------------------------------------------------------------------------------
+int InputStreamWriteBuffer::put(const void* buffer, int length) {
+  if (this->mWriteBuffer == nullptr)
+    return 0;
+
+  int result = this->mWriteBuffer->put(buffer, length);
+  this->mResult += result;
+
+  if (this->mWriteBuffer->isFull())
+    this->execute();
+
+  return result;
+}
+
+/* ******************************************************************************
+ * Public Method <Override>
+ */
 
 /* ******************************************************************************
  * Public Method
  */
 
-//-------------------------------------------------------------------------------
-bool OutputStream::abortWrite(void) {
-  if (!this->writeBusy())
-    return false;
-
-  this->execute();
-  return true;
-}
-
-//-------------------------------------------------------------------------------
-bool OutputStream::writeBusy(void) {
-  return ((this->mReadBuffer != nullptr) || this->mHandling);
-}
-
-//-------------------------------------------------------------------------------
-bool OutputStream::write(ReadBuffer& readBuffer, int timeout) {
-  Future future = Future();
-  if (this->write(readBuffer, future) == false)
-    return false;
-
-  future.waitDone(timeout);
-  if (future.isBusy())
-    this->abortWrite();
-
-  future.waitDone();
-  return true;
-}
-
-//-------------------------------------------------------------------------------
-bool OutputStream::write(ReadBuffer& readBuffer,
-                         void* attachment,
-                         CompletionHandler<int, void*>* handler) {
-  if (this->writeBusy())
-    return false;
-
-  this->mCompletionHandler = handler;
-  this->mAttachment = attachment;
-  this->mResult = 0;
-
-  if (readBuffer.isEmpty())
-    this->execute();
-
-  else
-    this->mReadBuffer = &readBuffer;
-
-  this->onWriteEvent();
-  return true;
-}
-
-//-------------------------------------------------------------------------------
-bool OutputStream::write(ReadBuffer& readBuffer, Future& future) {
-  if (!future.isIdle())
-    return false;
-
-  future.setWait();
-  bool result = this->write(readBuffer, nullptr, &future);
-  if (result == false)
-    future.clear();
-
-  return result;
-}
 /* ******************************************************************************
  * Protected Method <Static>
  */
@@ -159,24 +143,6 @@ bool OutputStream::write(ReadBuffer& readBuffer, Future& future) {
 /* ******************************************************************************
  * Private Method
  */
-
-//-------------------------------------------------------------------------------
-void OutputStream::execute(void) {
-  if (!this->writeBusy())
-    return;
-
-  if (this->mHandling)
-    return;
-
-  this->mHandling = true;
-  System::execute(*this);
-  return;
-}
-
-//-------------------------------------------------------------------------------
-void OutputStream::onWriteEvent(void) {
-  return;
-}
 
 /* ******************************************************************************
  * End of file

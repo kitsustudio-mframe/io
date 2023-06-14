@@ -4,30 +4,30 @@
  *
  * SPDX-License-Identifier: MIT
  */
-#ifndef MFRAME_73D4A5DA_8905_495C_8967_9EF1AAA2FB60
-#define MFRAME_73D4A5DA_8905_495C_8967_9EF1AAA2FB60
+#ifndef MFRAME_A1F76CE0_6517_42C6_A5DF_F88FC434FC37
+#define MFRAME_A1F76CE0_6517_42C6_A5DF_F88FC434FC37
 
 /* ****************************************************************************************
  * Include
  */
 
 //-----------------------------------------------------------------------------------------
-#include "./../io/Buffer.h"
-#include "./../io/InputStream.h"
+#include "./../io/ReadBuffer.h"
+#include "./../io/WriteBuffer.h"
+#include "./../lang/Object.h"
 
 /* ****************************************************************************************
  * Namespace
  */
 namespace mframe::io {
-  class InputStreamBuffer;
-
+  class ReadBufferMonitor;
 }  // namespace mframe::io
 
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */
-class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
-                                      public mframe::io::Buffer {
+class mframe::io::ReadBufferMonitor : public mframe::lang::Object,
+                                      public mframe::io::ReadBuffer {
   /* **************************************************************************************
    * Variable <Public>
    */
@@ -40,8 +40,8 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
    * Variable <Private>
    */
  private:
-  mframe::io::Buffer& mBuffer;
-
+  mframe::io::ReadBuffer& mReadBuffer;
+  mframe::io::WriteBuffer* mMonitor;
   /* **************************************************************************************
    * Abstract method <Public>
    */
@@ -54,18 +54,9 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
    * Construct Method
    */
  public:
-  /**
-   * @brief Construct a new Read Buffer Input Stream object
-   *
-   * @param buffer
-   */
-  InputStreamBuffer(mframe::io::Buffer& buffer);
+  ReadBufferMonitor(mframe::io::ReadBuffer& readBuffer);
 
-  /**
-   * @brief Destroy the Read Buffer Input Stream object
-   *
-   */
-  virtual ~InputStreamBuffer(void) override;
+  virtual ~ReadBufferMonitor(void) override;
 
   /* **************************************************************************************
    * Operator Method
@@ -76,37 +67,13 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
    */
 
   /* **************************************************************************************
-   *  Public Method <Override> - mframe::io::InputStream
-   */
- public:
-  virtual bool read(mframe::io::WriteBuffer& writeBuffer,
-                    void* attachment,
-                    mframe::io::CompletionHandler<int, void*>* handler) override;
-
-  /* **************************************************************************************
-   * Public Method <Override> - mframe::lang::WriteBuffer
-   */
- public:
-  virtual bool isFull(void) const override;
-
-  virtual int remaining(void) const override;
-
-  virtual int putByte(const char data) override;
-
-  virtual int put(mframe::io::ReadBuffer& readBuffer) override;
-
-  virtual int put(mframe::io::ReadBuffer& readBuffer, int length) override;
-
-  virtual int put(const void* buffer, int length) override;
-
-  /* **************************************************************************************
    *  Public Method <Override> - mframe::lang::Iterable<char>
    */
  public:
   virtual bool peekIndex(int index, char& result) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mframe::lang::ReadBuffer
+   * Public Method <Override> - mframe::io::ReadBuffer
    */
  public:
   virtual bool isEmpty(void) const override;
@@ -126,6 +93,15 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
   /* **************************************************************************************
    * Public Method
    */
+ public:
+  /**
+   * @brief 設定監視器
+   * 
+   * @param monitor 
+   * - null 取消監聽
+   * - other 建立監聽事件
+   */
+  virtual void setMonitor(mframe::io::WriteBuffer* monitor);
 
   /* **************************************************************************************
    * Protected Method <Static>
@@ -156,4 +132,4 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
  * End of file
  */
 
-#endif /* MFRAME_73D4A5DA_8905_495C_8967_9EF1AAA2FB60 */
+#endif /* MFRAME_A1F76CE0_6517_42C6_A5DF_F88FC434FC37 */

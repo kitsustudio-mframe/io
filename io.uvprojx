@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>ARMCM0</Device>
           <Vendor>ARM</Vendor>
-          <PackID>ARM.CMSIS.5.9.0</PackID>
+          <PackID>ARM.CMSIS.5.8.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00020000) IROM(0x00000000,0x00040000) CPUTYPE("Cortex-M0") CLOCK(12000000) ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -186,7 +186,6 @@
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
             <RvdsCdeCp>0</RvdsCdeCp>
-            <nBranchProt>0</nBranchProt>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -405,6 +404,16 @@
               <FilePath>.\Closeable.h</FilePath>
             </File>
             <File>
+              <FileName>CompletionHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\CompletionHandler.h</FilePath>
+            </File>
+            <File>
+              <FileName>Echoable.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Echoable.h</FilePath>
+            </File>
+            <File>
               <FileName>EmptyReadBuffer.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\EmptyReadBuffer.cpp</FilePath>
@@ -445,6 +454,16 @@
               <FilePath>.\InputStreamBuffer.h</FilePath>
             </File>
             <File>
+              <FileName>InputStreamWriteBuffer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\InputStreamWriteBuffer.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>InputStreamWriteBuffer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\InputStreamWriteBuffer.h</FilePath>
+            </File>
+            <File>
               <FileName>OutputStream.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\OutputStream.cpp</FilePath>
@@ -465,6 +484,16 @@
               <FilePath>.\OutputStreamBuffer.h</FilePath>
             </File>
             <File>
+              <FileName>OutputStreamReadBuffer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\OutputStreamReadBuffer.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>OutputStreamReadBuffer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\OutputStreamReadBuffer.h</FilePath>
+            </File>
+            <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\package-info.h</FilePath>
@@ -478,6 +507,21 @@
               <FileName>PrintBuffer.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\PrintBuffer.h</FilePath>
+            </File>
+            <File>
+              <FileName>ReadBuffer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ReadBuffer.h</FilePath>
+            </File>
+            <File>
+              <FileName>ReadBufferMonitor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\ReadBufferMonitor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>ReadBufferMonitor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ReadBufferMonitor.h</FilePath>
             </File>
             <File>
               <FileName>README.md</FileName>
@@ -519,6 +563,16 @@
               <FileType>5</FileType>
               <FilePath>.\WriteBuffer.h</FilePath>
             </File>
+            <File>
+              <FileName>WriteBufferMonitor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\WriteBufferMonitor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>WriteBufferMonitor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\WriteBufferMonitor.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -527,13 +581,13 @@
       <TargetName>cm3</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6180000::V6.18::ARMCLANG</pCCUsed>
+      <pCCUsed>6160000::V6.16::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>ARMCM3</Device>
           <Vendor>ARM</Vendor>
-          <PackID>ARM.CMSIS.5.9.0</PackID>
+          <PackID>ARM.CMSIS.5.8.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00020000) IROM(0x00000000,0x00040000) CPUTYPE("Cortex-M3") CLOCK(12000000) ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -703,7 +757,6 @@
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
             <RvdsCdeCp>0</RvdsCdeCp>
-            <nBranchProt>0</nBranchProt>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -922,6 +975,16 @@
               <FilePath>.\Closeable.h</FilePath>
             </File>
             <File>
+              <FileName>CompletionHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\CompletionHandler.h</FilePath>
+            </File>
+            <File>
+              <FileName>Echoable.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Echoable.h</FilePath>
+            </File>
+            <File>
               <FileName>EmptyReadBuffer.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\EmptyReadBuffer.cpp</FilePath>
@@ -962,6 +1025,16 @@
               <FilePath>.\InputStreamBuffer.h</FilePath>
             </File>
             <File>
+              <FileName>InputStreamWriteBuffer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\InputStreamWriteBuffer.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>InputStreamWriteBuffer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\InputStreamWriteBuffer.h</FilePath>
+            </File>
+            <File>
               <FileName>OutputStream.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\OutputStream.cpp</FilePath>
@@ -982,6 +1055,16 @@
               <FilePath>.\OutputStreamBuffer.h</FilePath>
             </File>
             <File>
+              <FileName>OutputStreamReadBuffer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\OutputStreamReadBuffer.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>OutputStreamReadBuffer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\OutputStreamReadBuffer.h</FilePath>
+            </File>
+            <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\package-info.h</FilePath>
@@ -995,6 +1078,21 @@
               <FileName>PrintBuffer.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\PrintBuffer.h</FilePath>
+            </File>
+            <File>
+              <FileName>ReadBuffer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ReadBuffer.h</FilePath>
+            </File>
+            <File>
+              <FileName>ReadBufferMonitor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\ReadBufferMonitor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>ReadBufferMonitor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ReadBufferMonitor.h</FilePath>
             </File>
             <File>
               <FileName>README.md</FileName>
@@ -1036,6 +1134,16 @@
               <FileType>5</FileType>
               <FilePath>.\WriteBuffer.h</FilePath>
             </File>
+            <File>
+              <FileName>WriteBufferMonitor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\WriteBufferMonitor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>WriteBufferMonitor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\WriteBufferMonitor.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -1050,7 +1158,7 @@
         <TargetCommonOption>
           <Device>ARMCM4_FP</Device>
           <Vendor>ARM</Vendor>
-          <PackID>ARM.CMSIS.5.9.0</PackID>
+          <PackID>ARM.CMSIS.5.8.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00020000) IROM(0x00000000,0x00040000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -1220,7 +1328,6 @@
             <RvdsVP>2</RvdsVP>
             <RvdsMve>0</RvdsMve>
             <RvdsCdeCp>0</RvdsCdeCp>
-            <nBranchProt>0</nBranchProt>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -1439,6 +1546,16 @@
               <FilePath>.\Closeable.h</FilePath>
             </File>
             <File>
+              <FileName>CompletionHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\CompletionHandler.h</FilePath>
+            </File>
+            <File>
+              <FileName>Echoable.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Echoable.h</FilePath>
+            </File>
+            <File>
               <FileName>EmptyReadBuffer.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\EmptyReadBuffer.cpp</FilePath>
@@ -1479,6 +1596,16 @@
               <FilePath>.\InputStreamBuffer.h</FilePath>
             </File>
             <File>
+              <FileName>InputStreamWriteBuffer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\InputStreamWriteBuffer.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>InputStreamWriteBuffer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\InputStreamWriteBuffer.h</FilePath>
+            </File>
+            <File>
               <FileName>OutputStream.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\OutputStream.cpp</FilePath>
@@ -1499,6 +1626,16 @@
               <FilePath>.\OutputStreamBuffer.h</FilePath>
             </File>
             <File>
+              <FileName>OutputStreamReadBuffer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\OutputStreamReadBuffer.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>OutputStreamReadBuffer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\OutputStreamReadBuffer.h</FilePath>
+            </File>
+            <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\package-info.h</FilePath>
@@ -1512,6 +1649,21 @@
               <FileName>PrintBuffer.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\PrintBuffer.h</FilePath>
+            </File>
+            <File>
+              <FileName>ReadBuffer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ReadBuffer.h</FilePath>
+            </File>
+            <File>
+              <FileName>ReadBufferMonitor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\ReadBufferMonitor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>ReadBufferMonitor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ReadBufferMonitor.h</FilePath>
             </File>
             <File>
               <FileName>README.md</FileName>
@@ -1552,6 +1704,16 @@
               <FileName>WriteBuffer.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\WriteBuffer.h</FilePath>
+            </File>
+            <File>
+              <FileName>WriteBufferMonitor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\WriteBufferMonitor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>WriteBufferMonitor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\WriteBufferMonitor.h</FilePath>
             </File>
           </Files>
         </Group>
