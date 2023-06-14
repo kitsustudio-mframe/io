@@ -20,11 +20,11 @@
 /* ****************************************************************************************
  * Using
  */
-using mframe::WriteBufferMonitor;
+using mframe::io::WriteBufferMonitor;
 
 //-----------------------------------------------------------------------------------------
-using mframe::io::WriteBuffer;
 using mframe::io::ReadBuffer;
+using mframe::io::WriteBuffer;
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -35,13 +35,13 @@ using mframe::io::ReadBuffer;
  */
 
 //-----------------------------------------------------------------------------------------
-WriteBufferMonitor::WriteBufferMonitor(WriteBuffer& writeBuffer) : mWriteBuffer(writeBuffer){
+WriteBufferMonitor::WriteBufferMonitor(WriteBuffer& writeBuffer) : mWriteBuffer(writeBuffer) {
   this->mMonitor = nullptr;
   return;
 }
 
 //-----------------------------------------------------------------------------------------
-WriteBufferMonitor::~WriteBufferMonitor(void){
+WriteBufferMonitor::~WriteBufferMonitor(void) {
   return;
 }
 
@@ -70,7 +70,7 @@ int WriteBufferMonitor::remaining(void) const {
 //-----------------------------------------------------------------------------------------
 int WriteBufferMonitor::putByte(const char data) {
   int result = this->mWriteBuffer.putByte(data);
-  if((result >= 0) && this->mMonitor)
+  if ((result >= 0) && this->mMonitor)
     this->mMonitor->putByte(data);
 
   return result;
@@ -85,10 +85,10 @@ int WriteBufferMonitor::put(ReadBuffer& readBuffer) {
 int WriteBufferMonitor::put(ReadBuffer& readBuffer, int length) {
   bool peek = (this->mMonitor != nullptr);
   int result = readBuffer.poll(this->mWriteBuffer, length, peek);
-  
-  if(peek){
+
+  if (peek) {
     int skip = result - readBuffer.poll(*this->mMonitor, result, false);
-    if(skip)
+    if (skip)
       readBuffer.skip(skip);
   }
 
@@ -98,7 +98,7 @@ int WriteBufferMonitor::put(ReadBuffer& readBuffer, int length) {
 //-----------------------------------------------------------------------------------------
 int WriteBufferMonitor::put(const void* buffer, int length) {
   int result = this->mWriteBuffer.put(buffer, length);
-  if(this->mMonitor)
+  if (this->mMonitor)
     this->mMonitor->put(buffer, result);
 
   return result;
@@ -107,6 +107,11 @@ int WriteBufferMonitor::put(const void* buffer, int length) {
 /* ****************************************************************************************
  * Public Method
  */
+
+//-----------------------------------------------------------------------------------------
+void WriteBufferMonitor::setMonitor(mframe::io::WriteBuffer* monitor) {
+  this->mMonitor = monitor;
+}
 
 /* ****************************************************************************************
  * Protected Method <Static>

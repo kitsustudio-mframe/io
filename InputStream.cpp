@@ -123,7 +123,7 @@ bool InputStream::read(WriteBuffer& writeBuffer,
   this->mCompletionHandler = handler;
   this->mResult = 0;
 
-  if (this->mWriteBuffer->isFull())
+  if (writeBuffer.isFull())
     this->execute();
 
   else

@@ -18,15 +18,15 @@
 /* ****************************************************************************************
  * Namespace
  */
-namespace mframe {
+namespace mframe::io {
   class WriteBufferMonitor;
-}  // namespace mframe
+}  // namespace mframe::io
 
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */
-class mframe::WriteBufferMonitor : public mframe::lang::Object,
-                                   public mframe::io::WriteBuffer {
+class mframe::io::WriteBufferMonitor : public mframe::lang::Object,
+                                       public mframe::io::WriteBuffer {
   /* **************************************************************************************
    * Variable <Public>
    */
@@ -97,15 +97,12 @@ class mframe::WriteBufferMonitor : public mframe::lang::Object,
  public:
   /**
    * @brief 設定監視器
-   * 
-   * @param monitor 
+   *
+   * @param monitor
    * - null 取消監聽
    * - other 建立監聽事件
-   * 
-   * @return true 
-   * @return false 
    */
-  virtual bool setMonitor(mframe::io::WriteBuffer* monitor);
+  virtual void setMonitor(mframe::io::WriteBuffer* monitor);
 
   /* **************************************************************************************
    * Protected Method <Static>
