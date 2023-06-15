@@ -34,12 +34,12 @@ class mframe::io::OutputStreamBuffer : public mframe::io::OutputStream,
   /* **************************************************************************************
    * Variable <Protected>
    */
+ protected:
+  mframe::io::Buffer* mBuffer;
 
   /* **************************************************************************************
    * Variable <Private>
    */
- private:
-  mframe::io::Buffer* mBuffer;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -72,6 +72,12 @@ class mframe::io::OutputStreamBuffer : public mframe::io::OutputStream,
   /* **************************************************************************************
    * Public Method <Static>
    */
+
+  /* **************************************************************************************
+   *  Public Method <Override> - mframe::io::Buffer
+   */
+ public:
+  virtual void flush(void) override;
 
   /* **************************************************************************************
    * Public Method <Override> - mframe::lang::WriteBuffer
@@ -123,7 +129,7 @@ class mframe::io::OutputStreamBuffer : public mframe::io::OutputStream,
    * @param buffer
    */
   virtual void setDefaultBuffer(mframe::io::Buffer* buffer);
-  
+
   /* **************************************************************************************
    * Protected Method <Static>
    */
@@ -135,6 +141,12 @@ class mframe::io::OutputStreamBuffer : public mframe::io::OutputStream,
   /* **************************************************************************************
    * Protected Method
    */
+ protected:
+  /**
+   * @brief 當有字元寫入至緩衝區時調用。
+   *
+   */
+  virtual void onBufferPutEvent(void);
 
   /* **************************************************************************************
    * Private Method <Static>

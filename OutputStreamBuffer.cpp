@@ -33,11 +33,13 @@ using mframe::io::Buffer;
  * Construct Method
  */
 
+//-----------------------------------------------------------------------------------------
 OutputStreamBuffer::OutputStreamBuffer(void) {
   this->mBuffer = nullptr;
   return;
 }
 
+//-----------------------------------------------------------------------------------------
 OutputStreamBuffer::~OutputStreamBuffer(void) {
   this->mBuffer = nullptr;
   return;
@@ -50,6 +52,18 @@ OutputStreamBuffer::~OutputStreamBuffer(void) {
 /* ****************************************************************************************
  * Public Method <Static>
  */
+
+/* ****************************************************************************************
+ *  Public Method <Override> - mframe::io::Buffer
+ */
+
+//-----------------------------------------------------------------------------------------
+void OutputStreamBuffer::flush(void) {
+  if (this->mBuffer)
+    this->mBuffer->flush();
+
+  return;
+}
 
 /* ****************************************************************************************
  * Public Method <Override> - mframe::lang::WriteBuffer
@@ -73,32 +87,44 @@ int OutputStreamBuffer::remaining(void) const {
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::putByte(const char data) {
-  if (this->mBuffer)
-    return this->mBuffer->putByte(data);
+  if (this->mBuffer) {
+    int result = this->mBuffer->putByte(data);
+    this->onBufferPutEvent();
+    return result;
+  }
 
   return 0;
 }
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::put(mframe::io::ReadBuffer& readBuffer) {
-  if (this->mBuffer)
-    return this->mBuffer->put(readBuffer);
+  if (this->mBuffer) {
+    int result = this->mBuffer->put(readBuffer);
+    this->onBufferPutEvent();
+    return result;
+  }
 
   return 0;
 }
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::put(mframe::io::ReadBuffer& readBuffer, int length) {
-  if (this->mBuffer)
-    return this->mBuffer->put(readBuffer, length);
+  if (this->mBuffer) {
+    int result = this->mBuffer->put(readBuffer, length);
+    this->onBufferPutEvent();
+    return result;
+  }
 
   return 0;
 }
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::put(const void* buffer, int length) {
-  if (this->mBuffer)
-    return this->mBuffer->put(buffer, length);
+  if (this->mBuffer) {
+    int result = this->mBuffer->put(buffer, length);
+    this->onBufferPutEvent();
+    return result;
+  }
 
   return 0;
 }
@@ -148,11 +174,14 @@ int OutputStreamBuffer::avariable(void) const {
 int OutputStreamBuffer::pollByte(char& result, bool peek) {
   if (this->mReadBuffer) {
     int status = this->mReadBuffer->pollByte(result, peek);
-    if (status <= 0)
+    if (status <= 0) {
       this->execute();
-
-    return result;
+      status = this->mBuffer->avariable();
+    }
+    
+    return status;
   }
+
   if (this->mBuffer)
     return this->mBuffer->pollByte(result, peek);
 
@@ -166,60 +195,68 @@ int OutputStreamBuffer::poll(mframe::io::WriteBuffer& writeBuffer, bool peek) {
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::poll(mframe::io::WriteBuffer& writeBuffer, int length, bool peek) {
+  int result = 0;
   if (this->mReadBuffer) {
-    int result = this->mReadBuffer->poll(writeBuffer, length, peek);
+    result = this->mReadBuffer->poll(writeBuffer, length, peek);
     if (!peek)
       this->mResult += result;
 
     if (this->mReadBuffer->isEmpty())
       this->execute();
-
-    return result;
   }
 
-  if (this->mBuffer)
-    return this->mBuffer->poll(writeBuffer, length, peek);
+  if (this->mBuffer) {
+    if (length > result)
+      result += this->mBuffer->poll(writeBuffer, length - result, peek);
+  }
 
-  return 0;
+  return result;
 }
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::poll(void* buffer, int bufferSize, bool peek) {
+  int result = 0;
   if (this->mReadBuffer) {
-    int result = this->mReadBuffer->poll(buffer, bufferSize, peek);
+    result = this->mReadBuffer->poll(buffer, bufferSize, peek);
 
     if (!peek)
       this->mResult += result;
 
     if (this->mReadBuffer->isEmpty())
       this->execute();
-    return result;
   }
-  if (this->mBuffer)
-    return this->mBuffer->poll(buffer, bufferSize, peek);
 
-  return 0;
+  if (this->mBuffer) {
+    if (bufferSize > result)
+      result += this->mBuffer->poll(buffer, bufferSize - result, peek);
+  }
+
+  return result;
 }
 
 //-----------------------------------------------------------------------------------------
 int OutputStreamBuffer::skip(int value) {
+  int result = 0;
+
   if (this->mReadBuffer) {
-    int result = this->mReadBuffer->skip(value);
+    result = this->mReadBuffer->skip(value);
     this->mResult += result;
     if (this->mReadBuffer->isEmpty())
       this->execute();
-
-    return result;
   }
-  if (this->mBuffer)
-    return this->mBuffer->skip(value);
 
-  return 0;
+  if (this->mBuffer) {
+    if (value > result)
+      result += this->mBuffer->skip(value - result);
+  }
+
+  return result;
 }
 
 /* ****************************************************************************************
  * Public Method
  */
+
 //-----------------------------------------------------------------------------------------
 void OutputStreamBuffer::setDefaultBuffer(Buffer* buffer) {
   this->mBuffer = buffer;
@@ -238,6 +275,10 @@ void OutputStreamBuffer::setDefaultBuffer(Buffer* buffer) {
  * Protected Method
  */
 
+//-----------------------------------------------------------------------------------------
+void OutputStreamBuffer::onBufferPutEvent(void) {
+  return;
+}
 /* ****************************************************************************************
  * Private Method
  */

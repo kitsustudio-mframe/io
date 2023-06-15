@@ -35,12 +35,12 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
   /* **************************************************************************************
    * Variable <Protected>
    */
+ protected:
+  mframe::io::Buffer* mBuffer;
 
   /* **************************************************************************************
    * Variable <Private>
    */
- private:
-  mframe::io::Buffer* mBuffer;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -74,6 +74,12 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
   /* **************************************************************************************
    * Public Method <Static>
    */
+
+  /* **************************************************************************************
+   *  Public Method <Override> - mframe::io::Buffer
+   */
+ public:
+  virtual void flush(void) override;
 
   /* **************************************************************************************
    *  Public Method <Override> - mframe::io::InputStream
@@ -133,10 +139,17 @@ class mframe::io::InputStreamBuffer : public mframe::io::InputStream,
    * @param buffer
    */
   virtual void setDefaultBuffer(mframe::io::Buffer* buffer);
-  
+
   /* **************************************************************************************
    * Protected Method <Static>
    */
+ protected:
+
+  /**
+   * @brief 當緩衝區推出字元時調用。
+   *
+   */
+  virtual void onBufferPollEvent(void);
 
   /* **************************************************************************************
    * Protected Method <Override>
